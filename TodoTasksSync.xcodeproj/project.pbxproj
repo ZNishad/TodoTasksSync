@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2121E43530176D6C00874814 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2121E43430176D6C00874814 /* FirebaseAuth */; };
 		2121E43730176D6C00874814 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2121E43630176D6C00874814 /* FirebaseFirestore */; };
-		2121E43D30176DB800874814 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E43930176DB800874814 /* ContentView.swift */; };
+		2121E43D30176DB800874814 /* AuthRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E43930176DB800874814 /* AuthRouterView.swift */; };
 		2121E43E30176DB800874814 /* TodoTasksSyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E43B30176DB800874814 /* TodoTasksSyncApp.swift */; };
 		2121E43F30176DB800874814 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2121E43830176DB800874814 /* Assets.xcassets */; };
 		2121E44030176DB800874814 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2121E43A30176DB800874814 /* GoogleService-Info.plist */; };
@@ -17,6 +17,14 @@
 		2121E44730176DBF00874814 /* TodoTasksSyncUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E44430176DBF00874814 /* TodoTasksSyncUITests.swift */; };
 		2121E44830176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E44530176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift */; };
 		2121E498301777CC00874814 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E497301777CC00874814 /* AuthManager.swift */; };
+		21B4C3D33018986900147D09 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D23018986900147D09 /* AuthRouter.swift */; };
+		21B4C3D630189A5C00147D09 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D530189A5C00147D09 /* MainRouterView.swift */; };
+		21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D730189C3600147D09 /* WelcomeView.swift */; };
+		21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D930189DD800147D09 /* SignInView.swift */; };
+		21B4C3DC30189DE100147D09 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3DB30189DE100147D09 /* SignUpView.swift */; };
+		21B4C3DE30189E0000147D09 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3DD30189E0000147D09 /* PrivacyPolicy.swift */; };
+		21B4C3E03018C33600147D09 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 21B4C3DF3018C33600147D09 /* Localizable.xcstrings */; };
+		21B4C3E23018C48D00147D09 /* String+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3E13018C48D00147D09 /* String+Localized.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,13 +49,21 @@
 		2121E4083017483700874814 /* TodoTasksSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoTasksSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2121E4123017483700874814 /* TodoTasksSyncUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoTasksSyncUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2121E43830176DB800874814 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2121E43930176DB800874814 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2121E43930176DB800874814 /* AuthRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouterView.swift; sourceTree = "<group>"; };
 		2121E43A30176DB800874814 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2121E43B30176DB800874814 /* TodoTasksSyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTasksSyncApp.swift; sourceTree = "<group>"; };
 		2121E44130176DBC00874814 /* TodoTasksSyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTasksSyncTests.swift; sourceTree = "<group>"; };
 		2121E44430176DBF00874814 /* TodoTasksSyncUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTasksSyncUITests.swift; sourceTree = "<group>"; };
 		2121E44530176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTasksSyncUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2121E497301777CC00874814 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		21B4C3D23018986900147D09 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
+		21B4C3D530189A5C00147D09 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
+		21B4C3D730189C3600147D09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		21B4C3D930189DD800147D09 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		21B4C3DB30189DE100147D09 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		21B4C3DD30189E0000147D09 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
+		21B4C3DF3018C33600147D09 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		21B4C3E13018C48D00147D09 /* String+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localized.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,11 +116,14 @@
 		2121E43C30176DB800874814 /* TodoTasksSync */ = {
 			isa = PBXGroup;
 			children = (
-				2121E43930176DB800874814 /* ContentView.swift */,
-				2121E43B30176DB800874814 /* TodoTasksSyncApp.swift */,
+				21B4C3823018929C00147D09 /* App */,
+				21B4C3D13018985700147D09 /* Router */,
+				21B4C3813018928500147D09 /* Auth */,
+				21B4C3D430189A4800147D09 /* Main */,
 				2121E43A30176DB800874814 /* GoogleService-Info.plist */,
 				2121E43830176DB800874814 /* Assets.xcassets */,
-				2121E497301777CC00874814 /* AuthManager.swift */,
+				21B4C3DF3018C33600147D09 /* Localizable.xcstrings */,
+				21B4C3E13018C48D00147D09 /* String+Localized.swift */,
 			);
 			path = TodoTasksSync;
 			sourceTree = "<group>";
@@ -124,6 +143,43 @@
 				2121E44530176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift */,
 			);
 			path = TodoTasksSyncUITests;
+			sourceTree = "<group>";
+		};
+		21B4C3813018928500147D09 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				2121E43930176DB800874814 /* AuthRouterView.swift */,
+				21B4C3D730189C3600147D09 /* WelcomeView.swift */,
+				21B4C3D930189DD800147D09 /* SignInView.swift */,
+				21B4C3DB30189DE100147D09 /* SignUpView.swift */,
+				21B4C3DD30189E0000147D09 /* PrivacyPolicy.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		21B4C3823018929C00147D09 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2121E43B30176DB800874814 /* TodoTasksSyncApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		21B4C3D13018985700147D09 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				21B4C3D23018986900147D09 /* AuthRouter.swift */,
+				2121E497301777CC00874814 /* AuthManager.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		21B4C3D430189A4800147D09 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				21B4C3D530189A5C00147D09 /* MainRouterView.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +275,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 2121E3F23017483600874814;
 			minimizedProjectReferenceProxies = 1;
@@ -244,6 +301,7 @@
 			files = (
 				2121E43F30176DB800874814 /* Assets.xcassets in Resources */,
 				2121E44030176DB800874814 /* GoogleService-Info.plist in Resources */,
+				21B4C3E03018C33600147D09 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,8 +326,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2121E43D30176DB800874814 /* ContentView.swift in Sources */,
+				2121E43D30176DB800874814 /* AuthRouterView.swift in Sources */,
+				21B4C3DE30189E0000147D09 /* PrivacyPolicy.swift in Sources */,
+				21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */,
+				21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */,
+				21B4C3E23018C48D00147D09 /* String+Localized.swift in Sources */,
 				2121E498301777CC00874814 /* AuthManager.swift in Sources */,
+				21B4C3DC30189DE100147D09 /* SignUpView.swift in Sources */,
+				21B4C3D630189A5C00147D09 /* MainRouterView.swift in Sources */,
+				21B4C3D33018986900147D09 /* AuthRouter.swift in Sources */,
 				2121E43E30176DB800874814 /* TodoTasksSyncApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,6 +432,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -424,6 +490,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
