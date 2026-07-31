@@ -27,10 +27,16 @@ struct Asset {
         private init() {}
 
         static let appLargeTitle = SwiftUI.Font.system(size: 34, weight: .bold)
+        static let appTitle1 = SwiftUI.Font.system(size: 28, weight: .bold)
+        static let appTitle2 = SwiftUI.Font.system(size: 22, weight: .bold)
+        static let appTitle3 = SwiftUI.Font.system(size: 20, weight: .semibold)
         static let appHeadline = SwiftUI.Font.system(size: 17, weight: .semibold)
         static let appBody = SwiftUI.Font.system(size: 17, weight: .regular)
+        static let appCallout = SwiftUI.Font.system(size: 16, weight: .regular)
         static let appSubheadline = SwiftUI.Font.system(size: 15, weight: .regular)
-        static let appCaption = SwiftUI.Font.system(size: 13, weight: .regular)
+        static let appFootnote = SwiftUI.Font.system(size: 13, weight: .regular)
+        static let appCaption1 = SwiftUI.Font.system(size: 12, weight: .regular)
+        static let appCaption2 = SwiftUI.Font.system(size: 11, weight: .regular)
     }
 
     struct AppSpacing {
@@ -48,9 +54,10 @@ struct Asset {
     struct AppImage {
         private init() {}
 
-        static let AppGoogleLogo = SwiftUI.Image(.googleLogo)
-        static let AppAppleLogo = SwiftUI.Image("apple.logo")
+        static let appGoogleLogo = SwiftUI.Image(.googleLogo)
+        static let appAppleLogo = SwiftUI.Image("apple.logo")
         static let welcomeHeader = SwiftUI.Image(.welcomeViewHeader)
+        static let signInHeader = SwiftUI.Image(.signInViewHeader)
     }
 
 }

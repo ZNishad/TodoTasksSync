@@ -21,21 +21,21 @@ struct AppTextField: View {
                 Image(systemName: iconName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: AppAsset.AppSpacing.md, height: AppAsset.AppSpacing.md)
-                    .foregroundStyle(AppAsset.AppColor.appSecondaryText)
-                    .padding(.leading, AppAsset.AppSpacing.md)
+                    .frame(width: Asset.AppSpacing.md, height: Asset.AppSpacing.md)
+                    .foregroundStyle(Asset.AppColor.appSecondaryText)
+                    .padding(.leading, Asset.AppSpacing.md)
             }
 
             if !isSecured {
-                TextField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(AppAsset.AppColor.appSecondaryText))
-                    .frame(height: AppAsset.AppSpacing.lg)
+                TextField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(Asset.AppColor.appSecondaryText))
+                    .frame(height: Asset.AppSpacing.lg)
             } else {
                 ZStack {
-                    TextField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(AppAsset.AppColor.appSecondaryText))
-                        .frame(height: AppAsset.AppSpacing.lg)
+                    TextField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(Asset.AppColor.appSecondaryText))
+                        .frame(height: Asset.AppSpacing.lg)
                         .opacity(isPasswordVisible ? 1 : 0)
-                    SecureField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(AppAsset.AppColor.appSecondaryText))
-                        .frame(height: AppAsset.AppSpacing.lg)
+                    SecureField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(Asset.AppColor.appSecondaryText))
+                        .frame(height: Asset.AppSpacing.lg)
                         .opacity(isPasswordVisible ? 0 : 1)
                 }
 
@@ -43,18 +43,18 @@ struct AppTextField: View {
                     isPasswordVisible.toggle()
                 } label: {
                     Image(systemName: isPasswordVisible ? "eye.fill" : "eye.slash.fill")
-                        .foregroundStyle(AppAsset.AppColor.appSecondaryText)
+                        .foregroundStyle(Asset.AppColor.appSecondaryText)
                 }
-                .padding(.horizontal, AppAsset.AppSpacing.md)
+                .padding(.horizontal, Asset.AppSpacing.md)
             }
         }
         .frame(maxWidth: .infinity)
-        .background(AppAsset.AppColor.appBackground)
-        .padding(.vertical, AppAsset.AppSpacing.md)
-        .cornerRadius(AppAsset.AppSpacing.md)
+        .padding(.vertical, Asset.AppSpacing.md)
+        .background(Asset.AppColor.appSurface)
+        .cornerRadius(Asset.AppSpacing.md)
         .overlay {
-            RoundedRectangle(cornerRadius: AppAsset.AppSpacing.md)
-                .stroke(AppAsset.AppColor.appSeparator, lineWidth: 0.6)
+            RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
+                .stroke(Asset.AppColor.appSeparator, lineWidth: 1)
         }
     }
 }

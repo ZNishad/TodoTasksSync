@@ -8,23 +8,27 @@
 import SwiftUI
 
 enum AppButtonStyle {
-    case primary, secondary
+    case primary, secondary, clean
 
     var background: Color {
         switch self {
         case .primary:
-            return AppAsset.AppColor.appPrimraryYellow
+            return Asset.AppColor.appPrimraryYellow
         case .secondary:
-            return AppAsset.AppColor.appBackground
+            return Asset.AppColor.appBackground
+        case .clean:
+            return Asset.AppColor.appBackground
         }
     }
 
     var fontColor: Color {
         switch self {
         case .primary:
-            return AppAsset.AppColor.appPrimaryText
+            return Asset.AppColor.appPrimaryText
         case .secondary:
-            return AppAsset.AppColor.appSecondaryText
+            return Asset.AppColor.appSecondaryText
+        case .clean:
+            return Asset.AppColor.appPrimraryYellow
         }
     }
 
@@ -33,7 +37,9 @@ enum AppButtonStyle {
         case .primary:
             return .clear
         case .secondary:
-            return AppAsset.AppColor.appSeparator
+            return Asset.AppColor.appSeparator
+        case .clean:
+            return .clear
         }
     }
 }
@@ -42,29 +48,41 @@ struct AppButton: View {
     let title: String
     let style: AppButtonStyle
     var isOverlayed: Bool = false
+    var isLoading: Bool = false
     let action: () -> Void
 
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: AppAsset.AppSpacing.md) {
+            HStack(spacing: Asset.AppSpacing.md) {
                 if isOverlayed {
-                    AppAsset.AppImage.AppGoogleLogo
+                    Asset.AppImage.appGoogleLogo
+                        .padding(.leading, Asset.AppSpacing.md)
                 }
 
-                Text(title)
-                    .font(AppAsset.AppFont.appHeadline)
-                    .foregroundStyle(style.fontColor)
+                if isLoading {
+                    LoadingDotsView()
+                } else {
+                    Text(title.localized)
+                        .font(Asset.AppFont.appHeadline)
+                        .foregroundStyle(style.fontColor)
+                        .frame(maxWidth: .infinity)
+                }
+
+                if isOverlayed {
+                    Spacer()
+                }
 
             }
-            .padding(.vertical, AppAsset.AppSpacing.md)
+            .padding(.vertical, Asset.AppSpacing.md)
 
         }
+        .frame(height: 55)
         .frame(maxWidth: .infinity)
         .background(style.background)
-        .cornerRadius(AppAsset.AppSpacing.md)
+        .cornerRadius(Asset.AppSpacing.md)
         .overlay(
-            RoundedRectangle(cornerRadius: AppAsset.AppSpacing.md)
+            RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
                 .stroke(style.borderColor, lineWidth: 0.6)
         )
 
