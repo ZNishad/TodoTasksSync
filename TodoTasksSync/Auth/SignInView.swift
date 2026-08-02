@@ -11,6 +11,7 @@ struct SignInView: View {
 
     @State private var emailFieldText: String = ""
     @State private var passwordFieldText: String = ""
+    @State private var showForgotPassView: Bool = false
 
     @EnvironmentObject private var authRouter: AuthRouter
 
@@ -34,9 +35,16 @@ struct SignInView: View {
             }
         }
         .contentShape(Rectangle())
-            .onTapGesture {
-                hideKeyboard()
-            }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .sheet(isPresented: $showForgotPassView) {
+            ForgotPassView()
+                .presentationDetents([.fraction(0.6)])
+                .presentationBackground(Asset.AppColor.appBackground)
+                .presentationDragIndicator(.visible)
+        }
+
 
     }
 }
@@ -90,7 +98,7 @@ extension SignInView {
                 HStack(alignment: .top) {
                     Spacer()
                     Button {
-
+                        showForgotPassView.toggle()
                     } label: {
                         Text("Forgot password?")
                             .font(Asset.AppFont.appHeadline)
@@ -141,11 +149,5 @@ extension SignInView {
                 }
             }
         }
-    }
-}
-
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

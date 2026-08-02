@@ -82,7 +82,7 @@ struct AppButton: View {
         .frame(maxWidth: .infinity)
         .background(isDisabled ? style.background.opacity(0.3) : style.background)
         .cornerRadius(Asset.AppSpacing.md)
-        .animation(.spring(duration: 0.7), value: isDisabled)
+        .animation(.easeInOut(duration: 0.25), value: isDisabled)
         .overlay(
             RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
                 .stroke(style.borderColor, lineWidth: 0.6)

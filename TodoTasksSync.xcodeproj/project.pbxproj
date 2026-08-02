@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -30,6 +30,9 @@
 		21B4C487301A1CB400147D09 /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C486301A1CB400147D09 /* AppTextField.swift */; };
 		21B4C527301CAF9800147D09 /* LoadingDotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C526301CAF9800147D09 /* LoadingDotsView.swift */; };
 		21B4C5C6301F663A00147D09 /* FormVaildation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C5C5301F663A00147D09 /* FormVaildation.swift */; };
+		21E8F1EF301F94AE005C972B /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1EE301F94AE005C972B /* ForgotPassView.swift */; };
+		21E8F1F1301F9CFE005C972B /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1F0301F9CFE005C972B /* Helpers.swift */; };
+		21E8F1F3301FA048005C972B /* EmailValidatior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1F2301FA048005C972B /* EmailValidatior.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,31 +77,28 @@
 		21B4C486301A1CB400147D09 /* AppTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		21B4C526301CAF9800147D09 /* LoadingDotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDotsView.swift; sourceTree = "<group>"; };
 		21B4C5C5301F663A00147D09 /* FormVaildation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVaildation.swift; sourceTree = "<group>"; };
+		21E8F1EE301F94AE005C972B /* ForgotPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassView.swift; sourceTree = "<group>"; };
+		21E8F1F0301F9CFE005C972B /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		21E8F1F2301FA048005C972B /* EmailValidatior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidatior.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2121E3F83017483600874814 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				2121E43530176D6C00874814 /* FirebaseAuth in Frameworks */,
 				2121E43730176D6C00874814 /* FirebaseFirestore in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2121E4053017483700874814 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2121E40F3017483700874814 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -163,6 +163,7 @@
 				21B4C3D930189DD800147D09 /* SignInView.swift */,
 				21B4C3DB30189DE100147D09 /* SignUpView.swift */,
 				21B4C3DD30189E0000147D09 /* PrivacyPolicy.swift */,
+				21E8F1EE301F94AE005C972B /* ForgotPassView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -224,7 +225,9 @@
 			children = (
 				21B4C4333019E68E00147D09 /* Asset.swift */,
 				21B4C5C5301F663A00147D09 /* FormVaildation.swift */,
+				21E8F1F2301FA048005C972B /* EmailValidatior.swift */,
 				21B4C3E13018C48D00147D09 /* String+Localized.swift */,
+				21E8F1F0301F9CFE005C972B /* Helpers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -241,8 +244,6 @@
 				2121E3F93017483600874814 /* Resources */,
 			);
 			buildRules = (
-			);
-			dependencies = (
 			);
 			name = TodoTasksSync;
 			packageProductDependencies = (
@@ -267,8 +268,6 @@
 				2121E40A3017483700874814 /* PBXTargetDependency */,
 			);
 			name = TodoTasksSyncTests;
-			packageProductDependencies = (
-			);
 			productName = TodoTasksSyncTests;
 			productReference = 2121E4083017483700874814 /* TodoTasksSyncTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -287,8 +286,6 @@
 				2121E4143017483700874814 /* PBXTargetDependency */,
 			);
 			name = TodoTasksSyncUITests;
-			packageProductDependencies = (
-			);
 			productName = TodoTasksSyncUITests;
 			productReference = 2121E4123017483700874814 /* TodoTasksSyncUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -329,7 +326,7 @@
 			packageReferences = (
 				2121E43330176D6C00874814 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 2121E3FC3017483600874814 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -344,37 +341,32 @@
 /* Begin PBXResourcesBuildPhase section */
 		2121E3F93017483600874814 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				2121E43F30176DB800874814 /* Assets.xcassets in Resources */,
 				2121E44030176DB800874814 /* GoogleService-Info.plist in Resources */,
 				21B4C3E03018C33600147D09 /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2121E4063017483700874814 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2121E4103017483700874814 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2121E3F73017483600874814 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				2121E43D30176DB800874814 /* AuthRouterView.swift in Sources */,
 				21B4C4363019F0E700147D09 /* AppButton.swift in Sources */,
+				21E8F1EF301F94AE005C972B /* ForgotPassView.swift in Sources */,
+				21E8F1F3301FA048005C972B /* EmailValidatior.swift in Sources */,
 				21B4C3DE30189E0000147D09 /* PrivacyPolicy.swift in Sources */,
 				21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */,
 				21B4C487301A1CB400147D09 /* AppTextField.swift in Sources */,
@@ -382,6 +374,7 @@
 				21B4C5C6301F663A00147D09 /* FormVaildation.swift in Sources */,
 				21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */,
 				21B4C527301CAF9800147D09 /* LoadingDotsView.swift in Sources */,
+				21E8F1F1301F9CFE005C972B /* Helpers.swift in Sources */,
 				21B4C3E23018C48D00147D09 /* String+Localized.swift in Sources */,
 				2121E498301777CC00874814 /* AuthManager.swift in Sources */,
 				21B4C3DC30189DE100147D09 /* SignUpView.swift in Sources */,
@@ -389,24 +382,19 @@
 				21B4C3D33018986900147D09 /* AuthRouter.swift in Sources */,
 				2121E43E30176DB800874814 /* TodoTasksSyncApp.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2121E4043017483700874814 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				2121E44330176DBC00874814 /* TodoTasksSyncTests.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2121E40E3017483700874814 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				2121E44730176DBF00874814 /* TodoTasksSyncUITests.swift in Sources */,
 				2121E44830176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -424,7 +412,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		2121E41A3017483700874814 /* Debug */ = {
+		2121E41A3017483700874814 /* Debug configuration for PBXProject "TodoTasksSync" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -489,7 +477,7 @@
 			};
 			name = Debug;
 		};
-		2121E41B3017483700874814 /* Release */ = {
+		2121E41B3017483700874814 /* Release configuration for PBXProject "TodoTasksSync" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -547,21 +535,23 @@
 			};
 			name = Release;
 		};
-		2121E41D3017483700874814 /* Debug */ = {
+		2121E41D3017483700874814 /* Debug configuration for PBXNativeTarget "TodoTasksSync" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z56UQ833JW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoTasksSync/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = launcScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -584,21 +574,23 @@
 			};
 			name = Debug;
 		};
-		2121E41E3017483700874814 /* Release */ = {
+		2121E41E3017483700874814 /* Release configuration for PBXNativeTarget "TodoTasksSync" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z56UQ833JW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoTasksSync/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = launcScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -621,7 +613,7 @@
 			};
 			name = Release;
 		};
-		2121E4203017483700874814 /* Debug */ = {
+		2121E4203017483700874814 /* Debug configuration for PBXNativeTarget "TodoTasksSyncTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -643,7 +635,7 @@
 			};
 			name = Debug;
 		};
-		2121E4213017483700874814 /* Release */ = {
+		2121E4213017483700874814 /* Release configuration for PBXNativeTarget "TodoTasksSyncTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -665,7 +657,7 @@
 			};
 			name = Release;
 		};
-		2121E4233017483700874814 /* Debug */ = {
+		2121E4233017483700874814 /* Debug configuration for PBXNativeTarget "TodoTasksSyncUITests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -685,7 +677,7 @@
 			};
 			name = Debug;
 		};
-		2121E4243017483700874814 /* Release */ = {
+		2121E4243017483700874814 /* Release configuration for PBXNativeTarget "TodoTasksSyncUITests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -711,37 +703,33 @@
 		2121E3F63017483600874814 /* Build configuration list for PBXProject "TodoTasksSync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2121E41A3017483700874814 /* Debug */,
-				2121E41B3017483700874814 /* Release */,
+				2121E41A3017483700874814 /* Debug configuration for PBXProject "TodoTasksSync" */,
+				2121E41B3017483700874814 /* Release configuration for PBXProject "TodoTasksSync" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		2121E41C3017483700874814 /* Build configuration list for PBXNativeTarget "TodoTasksSync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2121E41D3017483700874814 /* Debug */,
-				2121E41E3017483700874814 /* Release */,
+				2121E41D3017483700874814 /* Debug configuration for PBXNativeTarget "TodoTasksSync" */,
+				2121E41E3017483700874814 /* Release configuration for PBXNativeTarget "TodoTasksSync" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		2121E41F3017483700874814 /* Build configuration list for PBXNativeTarget "TodoTasksSyncTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2121E4203017483700874814 /* Debug */,
-				2121E4213017483700874814 /* Release */,
+				2121E4203017483700874814 /* Debug configuration for PBXNativeTarget "TodoTasksSyncTests" */,
+				2121E4213017483700874814 /* Release configuration for PBXNativeTarget "TodoTasksSyncTests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		2121E4223017483700874814 /* Build configuration list for PBXNativeTarget "TodoTasksSyncUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2121E4233017483700874814 /* Debug */,
-				2121E4243017483700874814 /* Release */,
+				2121E4233017483700874814 /* Debug configuration for PBXNativeTarget "TodoTasksSyncUITests" */,
+				2121E4243017483700874814 /* Release configuration for PBXNativeTarget "TodoTasksSyncUITests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

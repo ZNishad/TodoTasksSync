@@ -58,4 +58,15 @@ final class AuthManager: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
+
+    func sendPasswordReset(email: String) async -> Bool {
+        errorMessage = nil
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
 }

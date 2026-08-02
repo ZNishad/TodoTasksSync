@@ -56,6 +56,7 @@ struct AppTextField: View {
         .overlay {
             RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
                 .stroke(isError ? Asset.AppColor.isError : Asset.AppColor.appSeparator, lineWidth: 1)
+                .animation(.easeInOut(duration: 0.25), value: isError)
         }
     }
 }

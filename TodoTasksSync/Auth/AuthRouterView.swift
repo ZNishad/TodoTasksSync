@@ -20,6 +20,8 @@ struct AuthRouterView: View {
                         SignInView()
                     case .signUp:
                         SignUpView()
+                    case .forgotPassword:
+                        ForgotPassView()
                     case .privacyPolicy:
                         PrivacyPolicy()
                     }

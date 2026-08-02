@@ -62,6 +62,7 @@ struct Asset {
         static let signInHeader = SwiftUI.Image(.signInViewHeader)
         static let signUpHeader = SwiftUI.Image(.signUpViewHeader)
         static let checkmark = SwiftUI.Image(systemName: "checkmark")
+        static let forgotPassHeader = SwiftUI.Image(.forgotPassViewHeader)
     }
 
 }

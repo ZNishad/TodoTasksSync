@@ -15,6 +15,8 @@ struct SignUpView: View {
 
     @EnvironmentObject private var authRouter: AuthRouter
 
+
+
     private var validation: FormValidation {
         FormValidation(email: emailFieldText, password: passwordFieldText, confirmPassword: confirmPasswordFieldText)
     }
@@ -40,9 +42,10 @@ struct SignUpView: View {
             }
         }
         .contentShape(Rectangle())
-            .onTapGesture {
-                hideKeyboard()
-            }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        
     }
 }
 
@@ -79,10 +82,9 @@ extension SignUpView {
 
                 AppTextField(placeholder: "Enter your email".localized,
                              iconName: "envelope.fill",
-                             isError: !validation.isEmailValid,
+                             isError: !validation.isEmailValid && !emailFieldText.isEmpty,
                              fieldText: $emailFieldText)
             }
-            .animation(.spring(duration: 0.7), value: validation.isEmailValid)
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
                 Text("Password")
@@ -94,7 +96,6 @@ extension SignUpView {
                              isSecured: true,
                              fieldText: $passwordFieldText)
             }
-            .animation(.spring(duration: 0.7), value: validation.passwordsMatch)
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
                 Text("Confirm password")
@@ -104,10 +105,9 @@ extension SignUpView {
                 AppTextField(placeholder: "Confirm your password".localized,
                              iconName: "lock.fill",
                              isSecured: true,
-                             isError: !validation.passwordsMatch,
+                             isError: !validation.passwordsMatch && !passwordFieldText.isEmpty,
                              fieldText: $confirmPasswordFieldText)
             }
-            .animation(.spring(duration: 0.7), value: validation.passwordsMatch)
         }
         .padding(.top, Asset.AppSpacing.sm)
     }
@@ -129,7 +129,7 @@ extension SignUpView {
 
                 Spacer()
             }
-            .animation(.spring(duration: 0.7), value: validation.hasMinLength)
+            .animation(.easeInOut(duration: 0.25), value: validation.hasMinLength)
 
             HStack(alignment: .top) {
                 Asset.AppImage.checkmark
@@ -143,7 +143,7 @@ extension SignUpView {
                     .font(Asset.AppFont.appSubheadline)
                     .foregroundStyle(validation.isPasswordValid ? Asset.AppColor.isSuccess: Asset.AppColor.appSecondaryText)
             }
-            .animation(.spring(duration: 0.7), value: validation.isPasswordValid)
+            .animation(.easeInOut(duration: 0.25), value: validation.isPasswordValid)
 
         }
         .padding(.vertical, Asset.AppSpacing.md)
@@ -177,8 +177,4 @@ extension SignUpView {
         }
 
     }
-}
-
-#Preview {
-    SignUpView()
 }

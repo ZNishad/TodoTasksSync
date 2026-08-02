@@ -40,7 +40,7 @@ extension WelcomeView {
                 .foregroundStyle(Asset.AppColor.appSecondaryText)
                 .font(Asset.AppFont.appTitle2)
 
-            Text("To Do & Tasks\(Text(": Sync").foregroundStyle(Asset.AppColor.appPrimraryYellow))")
+            Text("To Do & Tasks\(Text(": \(Text("Sync"))").foregroundStyle(Asset.AppColor.appPrimraryYellow))")
                 .font(Asset.AppFont.appLargeTitle)
                 .foregroundStyle(Asset.AppColor.appPrimaryText)
 
