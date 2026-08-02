@@ -29,6 +29,7 @@
 		21B4C4363019F0E700147D09 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C4353019F0E700147D09 /* AppButton.swift */; };
 		21B4C487301A1CB400147D09 /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C486301A1CB400147D09 /* AppTextField.swift */; };
 		21B4C527301CAF9800147D09 /* LoadingDotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C526301CAF9800147D09 /* LoadingDotsView.swift */; };
+		21B4C5C6301F663A00147D09 /* FormVaildation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C5C5301F663A00147D09 /* FormVaildation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		21B4C4353019F0E700147D09 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		21B4C486301A1CB400147D09 /* AppTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		21B4C526301CAF9800147D09 /* LoadingDotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDotsView.swift; sourceTree = "<group>"; };
+		21B4C5C5301F663A00147D09 /* FormVaildation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVaildation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +134,6 @@
 				21B4C4323019E62F00147D09 /* Resources */,
 				2121E43A30176DB800874814 /* GoogleService-Info.plist */,
 				21B4C3DF3018C33600147D09 /* Localizable.xcstrings */,
-				21B4C3E13018C48D00147D09 /* String+Localized.swift */,
 			);
 			path = TodoTasksSync;
 			sourceTree = "<group>";
@@ -195,7 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				21B4C485301A1C5F00147D09 /* Components */,
-				21B4C4333019E68E00147D09 /* Asset.swift */,
+				21B4C5C4301F662500147D09 /* Utils */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -216,6 +217,16 @@
 				21B4C526301CAF9800147D09 /* LoadingDotsView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		21B4C5C4301F662500147D09 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				21B4C4333019E68E00147D09 /* Asset.swift */,
+				21B4C5C5301F663A00147D09 /* FormVaildation.swift */,
+				21B4C3E13018C48D00147D09 /* String+Localized.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,6 +379,7 @@
 				21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */,
 				21B4C487301A1CB400147D09 /* AppTextField.swift in Sources */,
 				21B4C4343019E68E00147D09 /* Asset.swift in Sources */,
+				21B4C5C6301F663A00147D09 /* FormVaildation.swift in Sources */,
 				21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */,
 				21B4C527301CAF9800147D09 /* LoadingDotsView.swift in Sources */,
 				21B4C3E23018C48D00147D09 /* String+Localized.swift in Sources */,

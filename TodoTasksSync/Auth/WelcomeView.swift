@@ -58,22 +58,15 @@ extension WelcomeView {
         VStack(alignment: .center, spacing: Asset.AppSpacing.md) {
             AppButton(title: "Sign In", style: .primary, isLoading: isSigningIn) {
                 isSigningIn = true
-                    Task {
-                        try? await Task.sleep(for: .seconds(1))
-                        authRouter.push(.signIn)
-                        isSigningIn = false
-                    }
+                authRouter.push(.signIn)
+                isSigningIn = false
 
             }
 
             AppButton(title: "Sign Up", style: .secondary, isLoading: isSigningUp) {
                 isSigningUp = true
-                    Task {
-                        try? await Task.sleep(for: .seconds(1))
-                        authRouter.push(.signUp)
-                        isSigningUp = false
-                    }
-
+                authRouter.push(.signUp)
+                isSigningUp = false
             }
         }
     }

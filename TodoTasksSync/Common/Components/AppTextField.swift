@@ -11,6 +11,7 @@ struct AppTextField: View {
     let placeholder: String
     let iconName: String?
     var isSecured: Bool = false
+    var isError: Bool = false
     @State private var isPasswordVisible: Bool = false
 
     @Binding var fieldText: String
@@ -27,14 +28,14 @@ struct AppTextField: View {
             }
 
             if !isSecured {
-                TextField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(Asset.AppColor.appSecondaryText))
+                TextField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
                     .frame(height: Asset.AppSpacing.lg)
             } else {
                 ZStack {
-                    TextField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(Asset.AppColor.appSecondaryText))
+                    TextField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
                         .frame(height: Asset.AppSpacing.lg)
                         .opacity(isPasswordVisible ? 1 : 0)
-                    SecureField("", text: $fieldText, prompt: Text(placeholder.capitalized).foregroundStyle(Asset.AppColor.appSecondaryText))
+                    SecureField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
                         .frame(height: Asset.AppSpacing.lg)
                         .opacity(isPasswordVisible ? 0 : 1)
                 }
@@ -54,7 +55,7 @@ struct AppTextField: View {
         .cornerRadius(Asset.AppSpacing.md)
         .overlay {
             RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
-                .stroke(Asset.AppColor.appSeparator, lineWidth: 1)
+                .stroke(isError ? Asset.AppColor.isError : Asset.AppColor.appSeparator, lineWidth: 1)
         }
     }
 }

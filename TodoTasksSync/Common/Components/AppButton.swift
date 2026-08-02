@@ -49,6 +49,7 @@ struct AppButton: View {
     let style: AppButtonStyle
     var isOverlayed: Bool = false
     var isLoading: Bool = false
+    var isDisabled: Bool = false
     let action: () -> Void
 
 
@@ -79,8 +80,9 @@ struct AppButton: View {
         }
         .frame(height: 55)
         .frame(maxWidth: .infinity)
-        .background(style.background)
+        .background(isDisabled ? style.background.opacity(0.3) : style.background)
         .cornerRadius(Asset.AppSpacing.md)
+        .animation(.spring(duration: 0.7), value: isDisabled)
         .overlay(
             RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
                 .stroke(style.borderColor, lineWidth: 0.6)

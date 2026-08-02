@@ -20,6 +20,8 @@ struct Asset {
         static let appSecondaryText = SwiftUI.Color.secondaryText
         static let appSeparator = SwiftUI.Color.appSeparator
         static let appSurface = SwiftUI.Color.surface
+        static let isError = SwiftUI.Color.red
+        static let isSuccess = SwiftUI.Color.green
 
     }
 
@@ -58,6 +60,8 @@ struct Asset {
         static let appAppleLogo = SwiftUI.Image("apple.logo")
         static let welcomeHeader = SwiftUI.Image(.welcomeViewHeader)
         static let signInHeader = SwiftUI.Image(.signInViewHeader)
+        static let signUpHeader = SwiftUI.Image(.signUpViewHeader)
+        static let checkmark = SwiftUI.Image(systemName: "checkmark")
     }
 
 }

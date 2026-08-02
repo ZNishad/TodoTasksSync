@@ -12,19 +12,32 @@ struct SignInView: View {
     @State private var emailFieldText: String = ""
     @State private var passwordFieldText: String = ""
 
+    @EnvironmentObject private var authRouter: AuthRouter
+
     var body: some View {
         ScrollView {
             header
             mainSection
             footer
-
         }
         .scrollIndicators(.hidden)
         .padding(.horizontal, Asset.AppSpacing.lg)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    authRouter.popToRoot()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.black)
+                }
+            }
+        }
         .contentShape(Rectangle())
             .onTapGesture {
                 hideKeyboard()
             }
+
     }
 }
 
@@ -119,7 +132,7 @@ extension SignInView {
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
 
                 Button {
-
+                    authRouter.push(.signUp)
                 } label: {
                     Text("Sign Up")
                         .font(Asset.AppFont.appHeadline)
