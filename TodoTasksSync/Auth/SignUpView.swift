@@ -15,6 +15,7 @@ struct SignUpView: View {
     @State private var showAlert = false
     @State private var isSigningUp = false
     @State private var isProvicyAccepted: Bool = false
+    @State private var showSuccessAlert: Bool = false
 
     @EnvironmentObject private var authRouter: AuthRouter
     @EnvironmentObject private var authManager: AuthManager
@@ -49,7 +50,19 @@ struct SignUpView: View {
         .onTapGesture {
             hideKeyboard()
         }
-        
+        .alert("Check your email".localized, isPresented: $showSuccessAlert) {
+            Button("OK".localized) {
+                authRouter.push(.signIn)
+            }
+        } message: {
+            Text("We've sent a verification link to your email. Please verify before signing in.".localized)
+        }
+        .alert("Error".localized, isPresented: $showAlert) {
+            Button("OK".localized) { }
+        } message: {
+            Text(authManager.errorMessage ?? "")
+        }
+
     }
 }
 
@@ -88,6 +101,7 @@ extension SignUpView {
                              iconName: "envelope.fill",
                              isError: !validation.isEmailValid && !emailFieldText.isEmpty,
                              fieldText: $emailFieldText)
+
             }
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
@@ -161,10 +175,13 @@ extension SignUpView {
                 Task {
                     isSigningUp = true
                     await authManager.signUp(email: emailFieldText, password: passwordFieldText)
+                    isSigningUp = false
+
                     if authManager.errorMessage != nil {
                         showAlert = true
+                    } else {
+                        showSuccessAlert = true
                     }
-                    isSigningUp = false
                 }
             }
             .disabled(!validation.isFormValid || !isProvicyAccepted)
@@ -173,14 +190,17 @@ extension SignUpView {
                 HStack() {
                     Text("I have read the")
                         .font(.system(size: 14))
-                        .font(.system(size: 14))
+                        .foregroundStyle(Asset.AppColor.appPrimaryText)
 
-                    Text("Privacy Policy")
-                        .foregroundColor(Asset.AppColor.appPrimraryYellow)
-                        .font(.system(size: 14))
-                        .onTapGesture {
-                            authRouter.push(.privacyPolicy)
-                        }
+
+                    Button {
+                        authRouter.push(.privacyPolicy)
+                    } label: {
+                        Text("Privacy Policy").fontWeight(.bold)
+                            .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                            .font(.system(size: 14))
+                            .frame(height: 20)
+                    }
                 }
 
                 Spacer()
@@ -190,7 +210,7 @@ extension SignUpView {
                 } label: {
                     isProvicyAccepted ? Asset.AppImage.checkmarkSquare : Asset.AppImage.square
                 }
-                .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                .foregroundStyle(isProvicyAccepted ? Asset.AppColor.appPrimraryYellow : Asset.AppColor.appSecondaryText)
             }
             .padding(.horizontal, Asset.AppSpacing.sm)
 

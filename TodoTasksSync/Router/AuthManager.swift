@@ -21,7 +21,7 @@ final class AuthManager: ObservableObject {
     init() {
         authStateHandle = Auth.auth().addStateDidChangeListener({ [weak self] _, user in
             Task { @MainActor [weak self] in
-                self?.isAuthenticated = (user != nil)
+                self?.isAuthenticated = (user != nil && user?.isEmailVerified == true)
                 self?.currentUserEmail = user?.email
             }
         })
@@ -36,7 +36,8 @@ final class AuthManager: ObservableObject {
     func signUp(email: String, password: String) async {
         errorMessage = nil
         do {
-            _ = try await Auth.auth().createUser(withEmail: email, password: password)
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            try await result.user.sendEmailVerification()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -45,7 +46,11 @@ final class AuthManager: ObservableObject {
     func signIn(email: String, password: String) async {
         errorMessage = nil
         do {
-            _ = try await Auth.auth().signIn(withEmail: email, password: password)
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            if !result.user.isEmailVerified {
+                errorMessage = "Your account is not verified. Please check your email.".localized
+                try? Auth.auth().signOut()
+            }
         } catch {
             errorMessage = error.localizedDescription
         }

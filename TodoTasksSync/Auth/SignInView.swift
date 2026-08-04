@@ -48,8 +48,8 @@ struct SignInView: View {
                 .presentationBackground(Asset.AppColor.appBackground)
                 .presentationDragIndicator(.visible)
         }
-        .alert("Error", isPresented: $showAlert) {
-            Button("OK") { }
+        .alert("Error".localized, isPresented: $showAlert) {
+            Button("OK".localized) { }
         } message: {
             Text(authManager.errorMessage ?? "")
         }
