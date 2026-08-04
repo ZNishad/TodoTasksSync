@@ -12,15 +12,12 @@ struct WelcomeView: View {
 
     @EnvironmentObject private var authRouter: AuthRouter
 
-    @State private var isSigningIn: Bool = false
-    @State private var isSigningUp: Bool = false
 
     var body: some View {
         VStack {
             header
             mainSection
             footer
-//            Spacer()
         }
         .padding()
     }
@@ -56,17 +53,13 @@ extension WelcomeView {
     @ViewBuilder
     private var mainSection: some View {
         VStack(alignment: .center, spacing: Asset.AppSpacing.md) {
-            AppButton(title: "Sign In", style: .primary, isLoading: isSigningIn) {
-                isSigningIn = true
+            AppButton(title: "Sign In", style: .primary) {
                 authRouter.push(.signIn)
-                isSigningIn = false
 
             }
 
-            AppButton(title: "Sign Up", style: .secondary, isLoading: isSigningUp) {
-                isSigningUp = true
+            AppButton(title: "Sign Up", style: .secondary) {
                 authRouter.push(.signUp)
-                isSigningUp = false
             }
         }
     }

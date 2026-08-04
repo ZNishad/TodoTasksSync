@@ -12,8 +12,12 @@ struct SignUpView: View {
     @State private var emailFieldText: String = ""
     @State private var passwordFieldText: String = ""
     @State private var confirmPasswordFieldText: String = ""
+    @State private var showAlert = false
+    @State private var isSigningUp = false
+    @State private var isProvicyAccepted: Bool = false
 
     @EnvironmentObject private var authRouter: AuthRouter
+    @EnvironmentObject private var authManager: AuthManager
 
 
 
@@ -144,7 +148,6 @@ extension SignUpView {
                     .foregroundStyle(validation.isPasswordValid ? Asset.AppColor.isSuccess: Asset.AppColor.appSecondaryText)
             }
             .animation(.easeInOut(duration: 0.25), value: validation.isPasswordValid)
-
         }
         .padding(.vertical, Asset.AppSpacing.md)
 
@@ -154,16 +157,49 @@ extension SignUpView {
     @ViewBuilder
     private var footer: some View {
         VStack(spacing: Asset.AppSpacing.md) {
-            AppButton(title: "Sign Up", style: .primary, isDisabled: !validation.isFormValid) {
-
+            AppButton(title: "Sign Up", style: .primary, isLoading: isSigningUp, isDisabled: !validation.isFormValid || !isProvicyAccepted) {
+                Task {
+                    isSigningUp = true
+                    await authManager.signUp(email: emailFieldText, password: passwordFieldText)
+                    if authManager.errorMessage != nil {
+                        showAlert = true
+                    }
+                    isSigningUp = false
+                }
             }
-            .disabled(!validation.isFormValid)
+            .disabled(!validation.isFormValid || !isProvicyAccepted)
 
+            HStack() {
+                HStack() {
+                    Text("I have read the")
+                        .font(.system(size: 14))
+                        .font(.system(size: 14))
+
+                    Text("Privacy Policy")
+                        .foregroundColor(Asset.AppColor.appPrimraryYellow)
+                        .font(.system(size: 14))
+                        .onTapGesture {
+                            authRouter.push(.privacyPolicy)
+                        }
+                }
+
+                Spacer()
+
+                Button {
+                    isProvicyAccepted.toggle()
+                } label: {
+                    isProvicyAccepted ? Asset.AppImage.checkmarkSquare : Asset.AppImage.square
+                }
+                .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+            }
+            .padding(.horizontal, Asset.AppSpacing.sm)
 
             HStack{
                 Text("Already have an account?")
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
+
+                Spacer()
 
                 Button {
                     authRouter.push(.signIn)
@@ -174,6 +210,7 @@ extension SignUpView {
 
                 }
             }
+            .padding(.horizontal, Asset.AppSpacing.sm)
         }
 
     }

@@ -8,7 +8,18 @@
 import SwiftUI
 
 struct MainRouterView: View {
+
+    @EnvironmentObject private var authManager: AuthManager
+
     var body: some View {
-        /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Hello, world!@*/Text("Hello, world!")/*@END_MENU_TOKEN@*/
+        VStack {
+            Button {
+                Task {
+                    authManager.signOut()
+                }
+            } label: {
+                Text("Log out")
+            }
+        }
     }
 }

@@ -12,8 +12,12 @@ struct SignInView: View {
     @State private var emailFieldText: String = ""
     @State private var passwordFieldText: String = ""
     @State private var showForgotPassView: Bool = false
+    @State private var isSigningIn = false
+    @State private var isGoogleSigningIn = false
+    @State private var showAlert = false
 
     @EnvironmentObject private var authRouter: AuthRouter
+    @EnvironmentObject private var authManager: AuthManager
 
     var body: some View {
         ScrollView {
@@ -43,6 +47,11 @@ struct SignInView: View {
                 .presentationDetents([.fraction(0.6)])
                 .presentationBackground(Asset.AppColor.appBackground)
                 .presentationDragIndicator(.visible)
+        }
+        .alert("Error", isPresented: $showAlert) {
+            Button("OK") { }
+        } message: {
+            Text(authManager.errorMessage ?? "")
         }
 
 
@@ -112,8 +121,15 @@ extension SignInView {
     @ViewBuilder
     private var footer: some View {
         VStack(spacing: Asset.AppSpacing.md) {
-            AppButton(title: "Sign In", style: .primary) {
-
+            AppButton(title: "Sign In".localized, style: .primary, isLoading: isSigningIn) {
+                Task {
+                    isSigningIn = true
+                    await authManager.signIn(email: emailFieldText, password: passwordFieldText)
+                    isSigningIn = false
+                    if authManager.errorMessage != nil {
+                        showAlert = true
+                    }
+                }
             }
 
             HStack {
@@ -130,8 +146,13 @@ extension SignInView {
                     .foregroundStyle(Asset.AppColor.appSeparator)
             }
 
-            AppButton(title: "Continue with Google", style: .secondary, isOverlayed: true) {
-                
+            AppButton(title: "Continue with Google", style: .secondary, isOverlayed: true, isLoading: isGoogleSigningIn) {
+                Task {
+                    isGoogleSigningIn = true
+                    await authManager.signInWithGoogle()
+                    isGoogleSigningIn = false
+                }
+
             }
 
             HStack{

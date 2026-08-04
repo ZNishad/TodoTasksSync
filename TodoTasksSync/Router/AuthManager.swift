@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import GoogleSignIn
 import Combine
 
 @MainActor
@@ -19,7 +20,7 @@ final class AuthManager: ObservableObject {
 
     init() {
         authStateHandle = Auth.auth().addStateDidChangeListener({ [weak self] _, user in
-            Task {@MainActor [weak self] in
+            Task { @MainActor [weak self] in
                 self?.isAuthenticated = (user != nil)
                 self?.currentUserEmail = user?.email
             }
@@ -50,7 +51,7 @@ final class AuthManager: ObservableObject {
         }
     }
 
-    func signOut()  {
+    func signOut() {
         errorMessage = nil
         do {
             try Auth.auth().signOut()
@@ -67,6 +68,35 @@ final class AuthManager: ObservableObject {
         } catch {
             errorMessage = error.localizedDescription
             return false
+        }
+    }
+
+    func signInWithGoogle() async {
+        errorMessage = nil
+
+        guard let rootViewController = UIApplication.shared.connectedScenes
+            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+            .first?.rootViewController else {
+            errorMessage = "Unable to find root view controller"
+            return
+        }
+
+        do {
+            let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
+
+            guard let idToken = result.user.idToken?.tokenString else {
+                errorMessage = "Failed to get ID token"
+                return
+            }
+
+            let credential = GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: result.user.accessToken.tokenString
+            )
+
+            _ = try await Auth.auth().signIn(with: credential)
+        } catch {
+            errorMessage = error.localizedDescription
         }
     }
 }

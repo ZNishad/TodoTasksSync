@@ -57,12 +57,13 @@ struct Asset {
         private init() {}
 
         static let appGoogleLogo = SwiftUI.Image(.googleLogo)
-        static let appAppleLogo = SwiftUI.Image("apple.logo")
         static let welcomeHeader = SwiftUI.Image(.welcomeViewHeader)
         static let signInHeader = SwiftUI.Image(.signInViewHeader)
         static let signUpHeader = SwiftUI.Image(.signUpViewHeader)
         static let checkmark = SwiftUI.Image(systemName: "checkmark")
         static let forgotPassHeader = SwiftUI.Image(.forgotPassViewHeader)
+        static let checkmarkSquare = SwiftUI.Image(systemName: "checkmark.square")
+        static let square = SwiftUI.Image(systemName: "square")
     }
 
 }

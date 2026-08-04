@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ForgotPassView: View {
     @State private var emailFieldText: String = ""
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var resetSucceeded = false
 
-    @EnvironmentObject private var authRouter: AuthRouter
+    @EnvironmentObject private var authManager: AuthManager
 
     @Environment(\.dismiss) private var dismiss
 
@@ -26,6 +29,13 @@ struct ForgotPassView: View {
             Spacer()
         }
         .padding(.top, Asset.AppSpacing.lg)
+        .alert("Info", isPresented: $showAlert) {
+            Button("OK") {
+                if resetSucceeded { dismiss() }
+            }
+        } message: {
+            Text(alertMessage)
+        }
     }
 }
 
@@ -72,9 +82,17 @@ extension ForgotPassView {
     @ViewBuilder
     private var footer: some View {
         VStack(spacing: Asset.AppSpacing.md) {
-            AppButton(title: "Send Resset Link", style: .primary, isDisabled: !emailValid) {
-
+            AppButton(title: "Send Reset Link", style: .primary, isDisabled: !emailValid) {
+                Task {
+                    let success = await authManager.sendPasswordReset(email: emailFieldText)
+                    resetSucceeded = success
+                    alertMessage = success
+                    ? "Password reset link sent to your email".localized
+                    : (authManager.errorMessage ?? "Something went wrong".localized)
+                    showAlert = true
+                }
             }
+            .disabled(!emailValid)
 
             HStack{
                 Text("Remembered it?")

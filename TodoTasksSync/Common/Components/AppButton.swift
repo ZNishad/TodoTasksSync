@@ -55,10 +55,10 @@ struct AppButton: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: Asset.AppSpacing.md) {
+            ZStack {
                 if isOverlayed {
                     Asset.AppImage.appGoogleLogo
-                        .padding(.leading, Asset.AppSpacing.md)
+                        .offset(x: -Asset.AppSpacing.xxxl*3)
                 }
 
                 if isLoading {
@@ -68,10 +68,6 @@ struct AppButton: View {
                         .font(Asset.AppFont.appHeadline)
                         .foregroundStyle(style.fontColor)
                         .frame(maxWidth: .infinity)
-                }
-
-                if isOverlayed {
-                    Spacer()
                 }
 
             }
