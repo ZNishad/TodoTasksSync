@@ -15,6 +15,7 @@ final class AuthManager: ObservableObject {
     @Published var isAuthenticated = false
     @Published var currentUserEmail: String? = nil
     @Published var errorMessage: String? = nil
+    @Published var userName: String = ""
 
     private var authStateHandle: AuthStateDidChangeListenerHandle?
 
@@ -23,6 +24,7 @@ final class AuthManager: ObservableObject {
             Task { @MainActor [weak self] in
                 self?.isAuthenticated = (user != nil && user?.isEmailVerified == true)
                 self?.currentUserEmail = user?.email
+                self?.userName = user?.displayName ?? ""
             }
         })
     }
@@ -104,6 +106,63 @@ final class AuthManager: ObservableObject {
             _ = try await Auth.auth().signIn(with: credential)
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    func updateUserName(_ name: String) async -> Bool {
+        errorMessage = nil
+
+        guard let user = Auth.auth().currentUser else {
+            errorMessage = "User is not authenticated"
+            return false
+        }
+
+        do {
+            let newName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            let changeRequest = user.createProfileChangeRequest()
+            changeRequest.displayName = newName
+
+            try await changeRequest.commitChanges()
+
+            userName = newName
+
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    var isGoogleUser: Bool {
+        Auth.auth().currentUser?.providerData.contains {
+            $0.providerID == "google.com"
+        } ?? false
+    }
+
+    var firstName: String {
+        userName.split(separator: " ").first.map(String.init) ?? ""
+    }
+
+    func changePassword(currentPassword: String, newPassword: String) async -> Bool {
+        errorMessage = nil
+
+        guard let user = Auth.auth().currentUser, let email = user.email else {
+            errorMessage = "User is not authenticated"
+            return false
+        }
+
+        do {
+            let credential = EmailAuthProvider.credential(withEmail: email, password: currentPassword
+            )
+
+            try await user.reauthenticate(with: credential)
+            try await user.updatePassword(to: newPassword)
+
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
         }
     }
 }

@@ -23,7 +23,7 @@ struct SignUpView: View {
 
 
     private var validation: FormValidation {
-        FormValidation(email: emailFieldText, password: passwordFieldText, confirmPassword: confirmPasswordFieldText)
+        FormValidation(name: "", email: emailFieldText, password: passwordFieldText, confirmPassword: confirmPasswordFieldText)
     }
 
     var body: some View {

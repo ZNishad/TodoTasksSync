@@ -45,9 +45,9 @@ struct MainView: View {
                 Menu {
 
                     Button {
-                        taskRouter.push(.profile)
+                        showProfile.toggle()
                     } label: {
-                        Label("Profile".localized, systemImage: "person")
+                        Label(authManager.userName == "" ? "Profile".localized : authManager.firstName, systemImage: "person")
                     }
 
                     Button {
@@ -79,7 +79,7 @@ struct MainView: View {
         }
         .sheet(isPresented: $showProfile) {
             ProfileView()
-                .presentationDetents([.fraction(0.7)])
+                .presentationDetents([authManager.isGoogleUser ? .fraction(0.45) : .large])
                 .presentationBackground(Asset.AppColor.appBackground)
                 .presentationDragIndicator(.visible)
         }

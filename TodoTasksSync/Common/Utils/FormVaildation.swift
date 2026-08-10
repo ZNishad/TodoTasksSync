@@ -8,9 +8,16 @@
 import Foundation
 
 struct FormValidation {
+    let name: String
     let email: String
     let password: String
     let confirmPassword: String
+
+    // MARK: - Name
+
+        var isNameValid: Bool {
+            name.filter { $0.isLetter }.count >= 2
+        }
 
     // MARK: - Email
 
