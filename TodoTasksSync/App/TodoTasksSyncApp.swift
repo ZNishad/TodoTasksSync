@@ -32,7 +32,7 @@ struct TodoTasksSyncApp: App {
         WindowGroup {
             Group {
                 if authManager.isAuthenticated {
-                    MainRouterView()
+                    TaskRouterView()
                         .transition(.asymmetric(
                             insertion: .move(edge: .bottom).combined(with: .opacity),
                             removal: .opacity

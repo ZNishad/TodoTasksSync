@@ -64,6 +64,16 @@ struct Asset {
         static let forgotPassHeader = SwiftUI.Image(.forgotPassViewHeader)
         static let checkmarkSquare = SwiftUI.Image(systemName: "checkmark.square")
         static let square = SwiftUI.Image(systemName: "square")
+        static let profile = SwiftUI.Image(systemName: "person")
+        static let circle = Image(systemName: "circle")
+        static let checkmarkCircle = Image(systemName: "checkmark.circle.fill")
+        static let trash = Image(systemName: "trash")
+        static let calendar = Image(systemName: "calendar")
+        static let plus = Image(systemName: "plus")
+        static let clock = Image(systemName: "clock")
+        static let history = Image(systemName: "clock.arrow.circlepath")
+        static let backArrow = Image(systemName: "arrow.uturn.backward")
+        static let option = Image(systemName: "gearshape")
     }
 
 }

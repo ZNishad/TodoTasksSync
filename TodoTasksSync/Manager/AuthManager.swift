@@ -47,6 +47,8 @@ final class AuthManager: ObservableObject {
         errorMessage = nil
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            try? await result.user.reload()
+
             if !result.user.isEmailVerified {
                 errorMessage = "Your account is not verified. Please check your email.".localized
                 try? Auth.auth().signOut()
