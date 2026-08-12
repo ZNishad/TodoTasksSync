@@ -72,7 +72,7 @@ extension TaskCard {
                     Text(
                         dueDate.formatted(
                             date: .abbreviated,
-                            time: .omitted
+                            time: .shortened    
                         )
                     )
                 }

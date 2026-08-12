@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 import Combine
+import NotificationCenter
 
 @MainActor
 final class TaskManager: ObservableObject {
@@ -17,6 +18,11 @@ final class TaskManager: ObservableObject {
 
     private let db = Firestore.firestore()
     private var listener: ListenerRegistration?
+    private let notificationManager: NotificationManager
+
+    init(notificationManager: NotificationManager) {
+        self.notificationManager = notificationManager
+    }
 
     func startListening() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
@@ -51,7 +57,10 @@ final class TaskManager: ObservableObject {
     func addTask(title: String, dueDate: Date?) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
+        let docRef = db.collection("tasks").document()
+
         let newTask = TodoTask(
+            id: docRef.documentID,
             title: title,
             isCompleted: false,
             createdAt: Date(),
@@ -61,7 +70,8 @@ final class TaskManager: ObservableObject {
         )
 
         do {
-            _ = try db.collection("tasks").addDocument(from: newTask)
+            try docRef.setData(from: newTask)
+            notificationManager.scheduleNotification(for: newTask)
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -93,6 +103,8 @@ final class TaskManager: ObservableObject {
             Task { @MainActor [weak self] in
                 if let error {
                     self?.errorMessage = error.localizedDescription
+                } else {
+                    self?.notificationManager.cancelNotification(for: task)
                 }
             }
         }

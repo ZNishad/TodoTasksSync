@@ -21,6 +21,7 @@
 		215C95E53021D88F00508E06 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E43021D88F00508E06 /* TaskManager.swift */; };
 		215C95E83021D8BA00508E06 /* TodoTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E73021D8BA00508E06 /* TodoTask.swift */; };
 		215C95EA3021F99F00508E06 /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E93021F99F00508E06 /* TaskRouter.swift */; };
+		2183736C302C58BE00D20029 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183736B302C58BE00D20029 /* NotificationManager.swift */; };
 		21B4C3D33018986900147D09 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D23018986900147D09 /* AuthRouter.swift */; };
 		21B4C3D630189A5C00147D09 /* TaskRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D530189A5C00147D09 /* TaskRouterView.swift */; };
 		21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D730189C3600147D09 /* WelcomeView.swift */; };
@@ -78,6 +79,7 @@
 		215C95E43021D88F00508E06 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		215C95E73021D8BA00508E06 /* TodoTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTask.swift; sourceTree = "<group>"; };
 		215C95E93021F99F00508E06 /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
+		2183736B302C58BE00D20029 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		21B4C3D23018986900147D09 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		21B4C3D530189A5C00147D09 /* TaskRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouterView.swift; sourceTree = "<group>"; };
 		21B4C3D730189C3600147D09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			children = (
 				2121E497301777CC00874814 /* AuthManager.swift */,
 				215C95E43021D88F00508E06 /* TaskManager.swift */,
+				2183736B302C58BE00D20029 /* NotificationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				21B4C3D630189A5C00147D09 /* TaskRouterView.swift in Sources */,
 				21B4C3D33018986900147D09 /* AuthRouter.swift in Sources */,
 				21D40CC53025C1740092B815 /* ConfirmationAction.swift in Sources */,
+				2183736C302C58BE00D20029 /* NotificationManager.swift in Sources */,
 				2121E43E30176DB800874814 /* TodoTasksSyncApp.swift in Sources */,
 			);
 		};
@@ -679,16 +683,20 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z56UQ833JW;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZNishad.TodoTasksSyncTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoTasksSync.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoTasksSync";
 			};
 			name = Debug;
@@ -701,16 +709,20 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z56UQ833JW;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZNishad.TodoTasksSyncTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoTasksSync.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoTasksSync";
 			};
 			name = Release;
@@ -722,15 +734,20 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z56UQ833JW;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZNishad.TodoTasksSyncUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = TodoTasksSync;
 			};
 			name = Debug;
@@ -742,15 +759,20 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z56UQ833JW;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZNishad.TodoTasksSyncUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = TodoTasksSync;
 			};
 			name = Release;

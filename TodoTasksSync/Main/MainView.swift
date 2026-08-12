@@ -157,6 +157,16 @@ extension MainView {
                 pendingConfirmation = .deleteTask(task)
             }
         )
+        .overlay {
+            if todayActiveTasks.isEmpty && todayCompletedTasks.isEmpty && overdueTasks.isEmpty {
+                Asset.AppImage.noTask
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 250, height: 250)
+                    .offset(y: -75)
+            }
+        }
+
     }
 
     @ViewBuilder
@@ -177,6 +187,15 @@ extension MainView {
                 pendingConfirmation = .deleteTask(task)
             }
         )
+        .overlay {
+            if upcomingActiveTasks.isEmpty && upcomingCompletedTasks.isEmpty {
+                Asset.AppImage.noTask
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 250, height: 250)
+                    .offset(y: -75)
+            }
+        }
     }
 
     @ViewBuilder

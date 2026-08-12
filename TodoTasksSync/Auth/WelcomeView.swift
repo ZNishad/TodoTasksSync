@@ -12,7 +12,6 @@ struct WelcomeView: View {
 
     @EnvironmentObject private var authRouter: AuthRouter
 
-
     var body: some View {
         VStack {
             header
@@ -76,8 +75,4 @@ extension WelcomeView {
         }
         .padding(.top, Asset.AppSpacing.lg)
     }
-}
-
-#Preview {
-    WelcomeView()
 }

@@ -15,7 +15,7 @@ struct HistoryView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .title) {
-                    Text("History".localized)
+                    Text("History")
                         .font(Asset.AppFont.appTitle1)
                 }
 
@@ -41,13 +41,20 @@ extension HistoryView {
 
                             Text(task.completedAt?.formatted(.dateTime.hour().minute()) ?? "")
                         }
-
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                taskManager.deleteTask(task)
+                            } label: {
+                                Asset.AppImage.trash
+                            }
+                        }
                     }
                 } header: {
                     Text(date.formatted(.dateTime.month(.wide).day()))
                 }
             }
         }
+
     }
 }
 

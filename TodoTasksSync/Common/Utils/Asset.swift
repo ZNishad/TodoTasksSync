@@ -56,15 +56,15 @@ struct Asset {
     struct AppImage {
         private init() {}
 
-        static let appGoogleLogo = SwiftUI.Image(.googleLogo)
-        static let welcomeHeader = SwiftUI.Image(.welcomeViewHeader)
-        static let signInHeader = SwiftUI.Image(.signInViewHeader)
-        static let signUpHeader = SwiftUI.Image(.signUpViewHeader)
-        static let checkmark = SwiftUI.Image(systemName: "checkmark")
-        static let forgotPassHeader = SwiftUI.Image(.forgotPassViewHeader)
-        static let checkmarkSquare = SwiftUI.Image(systemName: "checkmark.square")
-        static let square = SwiftUI.Image(systemName: "square")
-        static let profile = SwiftUI.Image(systemName: "person")
+        static let appGoogleLogo = Image(.googleLogo)
+        static let welcomeHeader = Image(.welcomeViewHeader)
+        static let signInHeader = Image(.signInViewHeader)
+        static let signUpHeader = Image(.signUpViewHeader)
+        static let checkmark = Image(systemName: "checkmark")
+        static let forgotPassHeader = Image(.forgotPassViewHeader)
+        static let checkmarkSquare = Image(systemName: "checkmark.square")
+        static let square = Image(systemName: "square")
+        static let profile = Image(systemName: "person")
         static let circle = Image(systemName: "circle")
         static let checkmarkCircle = Image(systemName: "checkmark.circle.fill")
         static let trash = Image(systemName: "trash")
@@ -74,6 +74,7 @@ struct Asset {
         static let history = Image(systemName: "clock.arrow.circlepath")
         static let backArrow = Image(systemName: "arrow.uturn.backward")
         static let option = Image(systemName: "gearshape")
+        static let noTask = Image(.noTask)
     }
 
 }

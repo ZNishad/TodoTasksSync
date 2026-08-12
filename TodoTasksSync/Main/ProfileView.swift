@@ -91,6 +91,7 @@ extension ProfileView {
             Text("Name and Surname")
                 .font(Asset.AppFont.appHeadline)
                 .foregroundStyle(Asset.AppColor.appPrimaryText)
+                .padding(.leading, Asset.AppSpacing.sm)
 
             HStack(spacing: Asset.AppSpacing.sm) {
                 AppTextField(placeholder: "Name and Surname".localized,
@@ -141,7 +142,7 @@ extension ProfileView {
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
-                AppTextField(placeholder: "Confirm your password".localized,
+                AppTextField(placeholder: "New password".localized,
                              iconName: "lock.fill",
                              isSecured: true,
                              fieldText: $newPass)
@@ -152,7 +153,7 @@ extension ProfileView {
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
-                AppTextField(placeholder: "Confirm your password".localized,
+                AppTextField(placeholder: "Confirm new password".localized,
                              iconName: "lock.fill",
                              isSecured: true,
                              fieldText: $newPassConfirm)
@@ -162,7 +163,7 @@ extension ProfileView {
     }
 
     private var changeButton: some View {
-        AppButton(title: "Change password".localized,
+        AppButton(title: "Change Password".localized,
                   style: .primary,
                   isLoading: isChangedPass,
                   isDisabled: newPass != newPassConfirm || newPassConfirm.isEmpty
@@ -172,7 +173,7 @@ extension ProfileView {
                 let success = await authManager.changePassword(currentPassword: oldPass, newPassword: newPass)
                 resetSucceeded = success
                 alertMessage = success
-                ? "Password updated successfully"
+                ? "Password updated successfully".localized
                 : (authManager.errorMessage ?? "Something went wrong".localized)
                 isChangedPass = false
                 showAlert = true

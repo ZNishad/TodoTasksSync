@@ -10,6 +10,7 @@ import SwiftUI
 struct AddTaskView: View {
     @State private var title: String = ""
     @State private var dueDate: Date = Date()
+    @State private var showDatePicker = false
 
     @EnvironmentObject private var taskManager: TaskManager
     @Environment(\.dismiss) private var dismiss
@@ -28,11 +29,16 @@ struct AddTaskView: View {
             DatePicker(
                 "Due date".localized,
                 selection: $dueDate,
-                displayedComponents: [.date]
+                displayedComponents: [.date, .hourAndMinute]
             )
+            .onChange(of: dueDate) {
+                hideKeyboard()
+            }
+
+            
 
             AppButton(title: "Add Task", style: .primary, isDisabled: title.isEmpty) {
-                taskManager.addTask(title: title, dueDate: dueDate.endOfDay)
+                taskManager.addTask(title: title, dueDate: dueDate)
                 dismiss()
             }
             .disabled(title.isEmpty)

@@ -9,8 +9,15 @@ import SwiftUI
 
 struct TaskRouterView: View {
 
-    @StateObject private var taskManager = TaskManager()
+    @StateObject private var taskManager: TaskManager
     @StateObject private var taskRouter = TaskRouter()
+    @StateObject private var notificationManager: NotificationManager
+
+    init() {
+        let notificationManager = NotificationManager()
+        _notificationManager = StateObject(wrappedValue: notificationManager)
+        _taskManager = StateObject(wrappedValue: TaskManager(notificationManager: notificationManager))
+    }
 
     var body: some View {
         NavigationStack(path: $taskRouter.path) {
@@ -26,8 +33,13 @@ struct TaskRouterView: View {
         }
         .environmentObject(taskManager)
         .environmentObject(taskRouter)
+        .environmentObject(notificationManager)
         .onAppear {
             taskManager.startListening()
+            Task {
+                _ = await notificationManager.requestNotificationPermission()
+            }
+
         }
         .onDisappear {
             taskManager.stopListening()
