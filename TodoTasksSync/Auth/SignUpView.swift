@@ -16,6 +16,8 @@ struct SignUpView: View {
     @State private var isSigningUp = false
     @State private var isProvicyAccepted: Bool = false
     @State private var showSuccessAlert: Bool = false
+    @State private var showPrivacyPolicy = false
+
 
     @EnvironmentObject private var authRouter: AuthRouter
     @EnvironmentObject private var authManager: AuthManager
@@ -194,12 +196,15 @@ extension SignUpView {
 
 
                     Button {
-                        authRouter.push(.privacyPolicy)
+                        showPrivacyPolicy = true
                     } label: {
-                        Text("Privacy Policy").fontWeight(.bold)
+                        Text("Privacy Policy")
+                            .fontWeight(.bold)
                             .foregroundStyle(Asset.AppColor.appPrimraryYellow)
                             .font(.system(size: 14))
-                            .frame(height: 20)
+                    }
+                    .sheet(isPresented: $showPrivacyPolicy) {
+                        SafariView(url: URL(string: "https://znishad.github.io/todotaskssync-privacy/")!)
                     }
                 }
 

@@ -54,6 +54,15 @@ extension HistoryView {
                 }
             }
         }
+        .overlay {
+            if historyTasks.isEmpty {
+                Asset.AppImage.noHistory
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 250, height: 250)
+                    .offset(y: -75)
+            }
+        }
 
     }
 }

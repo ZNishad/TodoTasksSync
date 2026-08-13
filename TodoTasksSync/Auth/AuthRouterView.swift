@@ -22,15 +22,9 @@ struct AuthRouterView: View {
                         SignUpView()
                     case .forgotPassword:
                         ForgotPassView()
-                    case .privacyPolicy:
-                        PrivacyPolicy()
                     }
                 }
         }
         .environmentObject(authRouter)
     }
-}
-
-#Preview {
-    AuthRouterView()
 }

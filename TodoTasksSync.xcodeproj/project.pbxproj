@@ -22,12 +22,12 @@
 		215C95E83021D8BA00508E06 /* TodoTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E73021D8BA00508E06 /* TodoTask.swift */; };
 		215C95EA3021F99F00508E06 /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E93021F99F00508E06 /* TaskRouter.swift */; };
 		2183736C302C58BE00D20029 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183736B302C58BE00D20029 /* NotificationManager.swift */; };
+		21837370302CA62300D20029 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183736F302CA62300D20029 /* SafariView.swift */; };
 		21B4C3D33018986900147D09 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D23018986900147D09 /* AuthRouter.swift */; };
 		21B4C3D630189A5C00147D09 /* TaskRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D530189A5C00147D09 /* TaskRouterView.swift */; };
 		21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D730189C3600147D09 /* WelcomeView.swift */; };
 		21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3D930189DD800147D09 /* SignInView.swift */; };
 		21B4C3DC30189DE100147D09 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3DB30189DE100147D09 /* SignUpView.swift */; };
-		21B4C3DE30189E0000147D09 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3DD30189E0000147D09 /* PrivacyPolicy.swift */; };
 		21B4C3E03018C33600147D09 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 21B4C3DF3018C33600147D09 /* Localizable.xcstrings */; };
 		21B4C3E23018C48D00147D09 /* String+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C3E13018C48D00147D09 /* String+Localized.swift */; };
 		21B4C4343019E68E00147D09 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C4333019E68E00147D09 /* Asset.swift */; };
@@ -80,12 +80,12 @@
 		215C95E73021D8BA00508E06 /* TodoTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTask.swift; sourceTree = "<group>"; };
 		215C95E93021F99F00508E06 /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
 		2183736B302C58BE00D20029 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		2183736F302CA62300D20029 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		21B4C3D23018986900147D09 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		21B4C3D530189A5C00147D09 /* TaskRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouterView.swift; sourceTree = "<group>"; };
 		21B4C3D730189C3600147D09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		21B4C3D930189DD800147D09 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		21B4C3DB30189DE100147D09 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		21B4C3DD30189E0000147D09 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
 		21B4C3DF3018C33600147D09 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		21B4C3E13018C48D00147D09 /* String+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localized.swift"; sourceTree = "<group>"; };
 		21B4C4333019E68E00147D09 /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
@@ -206,7 +206,6 @@
 				21B4C3D730189C3600147D09 /* WelcomeView.swift */,
 				21B4C3D930189DD800147D09 /* SignInView.swift */,
 				21B4C3DB30189DE100147D09 /* SignUpView.swift */,
-				21B4C3DD30189E0000147D09 /* PrivacyPolicy.swift */,
 				21E8F1EE301F94AE005C972B /* ForgotPassView.swift */,
 			);
 			path = Auth;
@@ -279,6 +278,7 @@
 				21E8F1F2301FA048005C972B /* EmailValidatior.swift */,
 				21B4C3E13018C48D00147D09 /* String+Localized.swift */,
 				21E8F1F0301F9CFE005C972B /* Helpers.swift */,
+				2183736F302CA62300D20029 /* SafariView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -421,7 +421,6 @@
 				21E8F1EF301F94AE005C972B /* ForgotPassView.swift in Sources */,
 				21D40CC93025CCA90092B815 /* AddTaskView.swift in Sources */,
 				21E8F1F3301FA048005C972B /* EmailValidatior.swift in Sources */,
-				21B4C3DE30189E0000147D09 /* PrivacyPolicy.swift in Sources */,
 				21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */,
 				21D40CC3302368E70092B815 /* TaskCard.swift in Sources */,
 				21D40CC73025C9F40092B815 /* TaskListView.swift in Sources */,
@@ -432,6 +431,7 @@
 				21B4C487301A1CB400147D09 /* AppTextField.swift in Sources */,
 				215C95EA3021F99F00508E06 /* TaskRouter.swift in Sources */,
 				21B4C4343019E68E00147D09 /* Asset.swift in Sources */,
+				21837370302CA62300D20029 /* SafariView.swift in Sources */,
 				21B4C5C6301F663A00147D09 /* FormVaildation.swift in Sources */,
 				21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */,
 				21B4C527301CAF9800147D09 /* LoadingDotsView.swift in Sources */,
