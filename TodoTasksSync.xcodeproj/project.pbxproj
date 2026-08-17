@@ -38,7 +38,6 @@
 		21D40BC6302208AB0092B815 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40BC5302208AB0092B815 /* MainView.swift */; };
 		21D40BC8302209490092B815 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40BC7302209490092B815 /* HistoryView.swift */; };
 		21D40CC3302368E70092B815 /* TaskCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40CC2302368E70092B815 /* TaskCard.swift */; };
-		21D40CC53025C1740092B815 /* ConfirmationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40CC43025C1740092B815 /* ConfirmationAction.swift */; };
 		21D40CC73025C9F40092B815 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40CC63025C9F40092B815 /* TaskListView.swift */; };
 		21D40CC93025CCA90092B815 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40CC83025CCA90092B815 /* AddTaskView.swift */; };
 		21D40CCB302615090092B815 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40CCA302615090092B815 /* ProfileView.swift */; };
@@ -96,7 +95,6 @@
 		21D40BC5302208AB0092B815 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		21D40BC7302209490092B815 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		21D40CC2302368E70092B815 /* TaskCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCard.swift; sourceTree = "<group>"; };
-		21D40CC43025C1740092B815 /* ConfirmationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAction.swift; sourceTree = "<group>"; };
 		21D40CC63025C9F40092B815 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		21D40CC83025CCA90092B815 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		21D40CCA302615090092B815 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 				21B4C486301A1CB400147D09 /* AppTextField.swift */,
 				21B4C526301CAF9800147D09 /* LoadingDotsView.swift */,
 				21D40CC2302368E70092B815 /* TaskCard.swift */,
-				21D40CC43025C1740092B815 /* ConfirmationAction.swift */,
 				21D40CC63025C9F40092B815 /* TaskListView.swift */,
 			);
 			path = Components;
@@ -442,7 +439,6 @@
 				21B4C3DC30189DE100147D09 /* SignUpView.swift in Sources */,
 				21B4C3D630189A5C00147D09 /* TaskRouterView.swift in Sources */,
 				21B4C3D33018986900147D09 /* AuthRouter.swift in Sources */,
-				21D40CC53025C1740092B815 /* ConfirmationAction.swift in Sources */,
 				2183736C302C58BE00D20029 /* NotificationManager.swift in Sources */,
 				2121E43E30176DB800874814 /* TodoTasksSyncApp.swift in Sources */,
 			);

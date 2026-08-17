@@ -73,9 +73,10 @@ struct Asset {
         static let clock = Image(systemName: "clock")
         static let history = Image(systemName: "clock.arrow.circlepath")
         static let backArrow = Image(systemName: "arrow.uturn.backward")
-        static let option = Image(systemName: "gearshape")
+        static let option = Image(systemName: "ellipsis")
         static let noTask = Image(.noTask)
         static let noHistory = Image(.noHistory)
+
     }
 
 }

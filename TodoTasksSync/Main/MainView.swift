@@ -16,10 +16,9 @@ struct MainView: View {
     @State private var selectedSegment: Segment = .today
     @Namespace private var segmentAnimation
 
-    @State private var pendingConfirmation: ConfirmationAction?
-
     @State private var showAddTask = false
     @State private var showProfile = false
+    @State private var showLogoutConfirmation = false
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -64,7 +63,7 @@ struct MainView: View {
                     Divider()
 
                     Button(role: .destructive) {
-                        authManager.signOut()
+                        showLogoutConfirmation.toggle()
                     } label: {
                         Label("Logout".localized, systemImage: "rectangle.portrait.and.arrow.right")
                     }
@@ -88,6 +87,16 @@ struct MainView: View {
                 .presentationBackground(Asset.AppColor.appBackground)
                 .presentationDragIndicator(.visible)
         }
+        .alert("Log Out?".localized, isPresented: $showLogoutConfirmation) {
+            Button("Cancel" , role: .cancel) { }
+            Button("Log out".localized, role: .destructive) {
+                authManager.signOut()
+            }
+        } message: {
+            Text("Are you sure you want to log out?".localized)
+
+        }
+
 
     }
 }
@@ -152,14 +161,10 @@ extension MainView {
                 ("Completed".localized, todayCompletedTasks)
             ],
             onComplete: { task in
-                if task.isCompleted {
-                    pendingConfirmation = .makeActive(task)
-                } else {
-                    pendingConfirmation = .completeTask(task)
-                }
+                taskManager.toggleCompletion(for: task)
             },
             onDelete: { task in
-                pendingConfirmation = .deleteTask(task)
+                taskManager.deleteTask(task)
             }
         )
         .overlay {
@@ -182,14 +187,10 @@ extension MainView {
                 ("Completed".localized, upcomingCompletedTasks)
             ],
             onComplete: { task in
-                if task.isCompleted {
-                    pendingConfirmation = .makeActive(task)
-                } else {
-                    pendingConfirmation = .completeTask(task)
-                }
+                taskManager.toggleCompletion(for: task)
             },
             onDelete: { task in
-                pendingConfirmation = .deleteTask(task)
+                taskManager.deleteTask(task)
             }
         )
         .overlay {
