@@ -45,7 +45,12 @@ struct MainView: View {
                 Menu {
 
                     Button {
-                        showProfile.toggle()
+                        if authManager.isGoogleUser {
+                            showProfile.toggle()
+                        } else {
+                            taskRouter.push(.profile)
+                        }
+
                     } label: {
                         Label(authManager.userName == "" ? "Profile".localized : authManager.firstName, systemImage: "person")
                     }

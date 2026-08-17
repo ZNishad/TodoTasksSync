@@ -165,4 +165,34 @@ final class AuthManager: ObservableObject {
             return false
         }
     }
+
+    func deleteAccount(password: String? = nil) async -> Bool {
+        errorMessage = nil
+
+        guard let user = Auth.auth().currentUser else {
+            errorMessage = "User is not authenticated"
+            return false
+        }
+
+        do {
+            if let email = user.email, let password {
+                let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+                try await user.reauthenticate(with: credential)
+            } else if isGoogleUser {
+                guard let idToken = GIDSignIn.sharedInstance.currentUser?.idToken?.tokenString,
+                      let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken.tokenString else {
+                    errorMessage = "Unable to reauthenticate with Google"
+                    return false
+                }
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+                try await user.reauthenticate(with: credential)
+            }
+
+            try await user.delete()
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
 }

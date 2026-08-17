@@ -20,20 +20,24 @@ struct ProfileView: View {
     @State private var alertMessage = ""
     @State private var resetSucceeded = false
     @State private var showAlert: Bool = false
+    @State private var showDeleteConfirmation = false
 
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Asset.AppSpacing.lg) {
+        ScrollView() {
             header
             nameSection
             if !authManager.isGoogleUser {
                 passChangeSection
                 changeButton
             }
+            deleteButton
         }
+        .scrollIndicators(.hidden)
         .padding(.horizontal, Asset.AppSpacing.lg)
-        .toolbar {  
+        .padding(.top, authManager.isGoogleUser ? Asset.AppSpacing.lg : 0)
+        .toolbar {
             ToolbarItem(placement: .title) {
                 Text("Profile".localized)
                     .font(Asset.AppFont.appTitle1)
@@ -84,6 +88,7 @@ extension ProfileView {
             }
         }
         .frame(maxWidth: .infinity)
+        .padding(.vertical, Asset.AppSpacing.sm)
     }
 
     private var nameSection: some View {
@@ -99,7 +104,10 @@ extension ProfileView {
                              isError: !(name.filter { $0.isLetter }.count >= 2) && !name.isEmpty,
                              fieldText: $name)
 
-                AppButton(title: "Save".localized, style: .primary, isLoading: isSavedName) {
+                AppButton(title: "Save".localized,
+                          style: .primary,
+                          isLoading: isSavedName,
+                          isDisabled: !(name.filter { $0.isLetter }.count >= 2) && !name.isEmpty) {
                     Task {
                         isSavedName = true
                         let success = await authManager.updateUserName(name)
@@ -110,11 +118,12 @@ extension ProfileView {
                         isSavedName = false
                         showAlert = true
                     }
-
                 }
+                .disabled(!(name.filter { $0.isLetter }.count >= 2) && !name.isEmpty)
                 .frame(width: 60)
             }
         }
+        .padding(.vertical, Asset.AppSpacing.sm)
     }
 
     private var passChangeSection: some View {
@@ -163,21 +172,48 @@ extension ProfileView {
     }
 
     private var changeButton: some View {
-        AppButton(title: "Change Password".localized,
-                  style: .primary,
-                  isLoading: isChangedPass,
-                  isDisabled: newPass != newPassConfirm || newPassConfirm.isEmpty
-        ) {
-            Task {
-                isChangedPass = true
-                let success = await authManager.changePassword(currentPassword: oldPass, newPassword: newPass)
-                resetSucceeded = success
-                alertMessage = success
-                ? "Password updated successfully".localized
-                : (authManager.errorMessage ?? "Something went wrong".localized)
-                isChangedPass = false
-                showAlert = true
+        VStack {
+            AppButton(title: "Change Password".localized,
+                      style: .primary,
+                      isLoading: isChangedPass,
+                      isDisabled: newPass != newPassConfirm || newPassConfirm.isEmpty
+            ) {
+                Task {
+                    isChangedPass = true
+                    let success = await authManager.changePassword(currentPassword: oldPass, newPassword: newPass)
+                    resetSucceeded = success
+                    alertMessage = success
+                    ? "Password updated successfully".localized
+                    : (authManager.errorMessage ?? "Something went wrong".localized)
+                    isChangedPass = false
+                    showAlert = true
+                }
+            }
+            .disabled(newPass != newPassConfirm || newPassConfirm.isEmpty)
+        }
+        .padding(.vertical, Asset.AppSpacing.sm)
+    }
+
+    private var deleteButton: some View {
+        VStack(alignment: .center) {
+            Button {
+                showDeleteConfirmation = true
+            } label: {
+                Text("Delete Account")
+                    .foregroundStyle(.red)
+            }
+            .alert("Delete Account?".localized, isPresented: $showDeleteConfirmation) {
+                Button("Cancel".localized, role: .cancel) { }
+                Button("Delete".localized, role: .destructive) {
+                    Task {
+                        await authManager.deleteAccount()
+                    }
+                }
+            } message: {
+                Text("This will permanently delete your account and all your tasks. This action cannot be undone.".localized)
             }
         }
+        .frame(maxWidth: .infinity)
+        //        .padding(.top, Asset.AppSpacing.sm)
     }
 }
