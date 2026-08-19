@@ -90,9 +90,12 @@ final class TaskManager: ObservableObject {
             Task { @MainActor [weak self] in
                 if let error {
                     self?.errorMessage = error.localizedDescription
+                } else if isNowCompleted {
+                    self?.notificationManager.cancelNotification(for: task)
+                } else {
+                    self?.notificationManager.scheduleNotification(for: task)
                 }
             }
-
         }
     }
 
