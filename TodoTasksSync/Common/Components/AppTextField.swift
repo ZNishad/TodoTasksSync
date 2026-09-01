@@ -30,14 +30,22 @@ struct AppTextField: View {
             if !isSecured {
                 TextField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
                     .frame(height: Asset.AppSpacing.lg)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
             } else {
                 ZStack {
                     TextField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
                         .frame(height: Asset.AppSpacing.lg)
                         .opacity(isPasswordVisible ? 1 : 0)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
                     SecureField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
                         .frame(height: Asset.AppSpacing.lg)
                         .opacity(isPasswordVisible ? 0 : 1)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
                 }
 
                 Button {

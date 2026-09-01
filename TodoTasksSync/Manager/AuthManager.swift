@@ -37,9 +37,13 @@ final class AuthManager: ObservableObject {
 
     func signUp(email: String, password: String) async {
         errorMessage = nil
+
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
+
             try await result.user.sendEmailVerification()
+
+            try Auth.auth().signOut()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -47,13 +51,20 @@ final class AuthManager: ObservableObject {
 
     func signIn(email: String, password: String) async {
         errorMessage = nil
+
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            try? await result.user.reload()
 
-            if !result.user.isEmailVerified {
+            try await result.user.reload()
+
+            guard let user = Auth.auth().currentUser else {
+                errorMessage = "User is not authenticated"
+                return
+            }
+
+            if !user.isEmailVerified {
                 errorMessage = "Your account is not verified. Please check your email.".localized
-                try? Auth.auth().signOut()
+                try Auth.auth().signOut()
             }
         } catch {
             errorMessage = error.localizedDescription
