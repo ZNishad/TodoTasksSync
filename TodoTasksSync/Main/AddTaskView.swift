@@ -10,7 +10,7 @@ import SwiftUI
 struct AddTaskView: View {
     @State private var title: String = ""
     @State private var dueDate: Date = Date()
-    @State private var showDatePicker = false
+    @State private var showDatePicker: Bool = false
 
     @EnvironmentObject private var taskManager: TaskManager
     @Environment(\.dismiss) private var dismiss

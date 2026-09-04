@@ -15,12 +15,12 @@ struct ProfileView: View {
     @State private var newPass: String = ""
     @State private var newPassConfirm: String = ""
     @State private var name: String = ""
-    @State private var isSavedName = false
-    @State private var isChangedPass = false
-    @State private var alertMessage = ""
-    @State private var resetSucceeded = false
+    @State private var isSavedName: Bool = false
+    @State private var isChangedPass: Bool = false
+    @State private var alertMessage: String = ""
+    @State private var resetSucceeded: Bool = false
     @State private var showAlert: Bool = false
-    @State private var showDeleteConfirmation = false
+    @State private var showDeleteConfirmation: Bool = false
 
     @Environment(\.dismiss) private var dismiss
 
