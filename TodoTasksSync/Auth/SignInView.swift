@@ -122,10 +122,15 @@ extension SignInView {
     private var footer: some View {
         VStack(spacing: Asset.AppSpacing.md) {
             AppButton(title: "Sign In".localized, style: .primary, isLoading: isSigningIn) {
+                guard !isSigningIn else { return }
+
+                isSigningIn = true
+
                 Task {
-                    isSigningIn = true
+                    defer { isSigningIn = false }
+
                     await authManager.signIn(email: emailFieldText, password: passwordFieldText)
-                    isSigningIn = false
+
                     if authManager.errorMessage != nil {
                         showAlert = true
                     }
@@ -147,12 +152,15 @@ extension SignInView {
             }
 
             AppButton(title: "Continue with Google", style: .secondary, isOverlayed: true, isLoading: isGoogleSigningIn) {
-                Task {
-                    isGoogleSigningIn = true
-                    await authManager.signInWithGoogle()
-                    isGoogleSigningIn = false
-                }
+                guard !isGoogleSigningIn else { return }
 
+                isGoogleSigningIn = true
+
+                Task {
+                    defer { isGoogleSigningIn = false }
+
+                    await authManager.signInWithGoogle()
+                }
             }
 
             HStack{

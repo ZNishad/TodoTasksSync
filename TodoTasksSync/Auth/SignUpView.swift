@@ -174,10 +174,12 @@ extension SignUpView {
     private var footer: some View {
         VStack(spacing: Asset.AppSpacing.md) {
             AppButton(title: "Sign Up", style: .primary, isLoading: isSigningUp, isDisabled: !validation.isFormValid || !isProvicyAccepted) {
+                guard !isSigningUp else { return }
+
+                isSigningUp = true
                 Task {
-                    isSigningUp = true
+                    defer { isSigningUp = false }
                     await authManager.signUp(email: emailFieldText, password: passwordFieldText)
-                    isSigningUp = false
 
                     if authManager.errorMessage != nil {
                         showAlert = true
