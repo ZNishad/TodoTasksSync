@@ -214,6 +214,5 @@ extension ProfileView {
             }
         }
         .frame(maxWidth: .infinity)
-        //        .padding(.top, Asset.AppSpacing.sm)
     }
 }
