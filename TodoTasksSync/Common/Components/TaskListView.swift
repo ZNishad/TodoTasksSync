@@ -11,6 +11,7 @@ struct TaskListView: View {
     let sections: [(title: String, tasks: [TodoTask])]
     let onComplete: (TodoTask) -> Void
     let onDelete: (TodoTask) -> Void
+    let onTap: (TodoTask) -> Void
 
     @EnvironmentObject private var taskManager: TaskManager
 
@@ -21,6 +22,9 @@ struct TaskListView: View {
                     Section(section.title) {
                         ForEach(section.tasks) { task in
                             TaskCard(task: task)
+                                .onTapGesture {
+                                    onTap(task)
+                                }
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
                                         taskManager.deleteTask(task)

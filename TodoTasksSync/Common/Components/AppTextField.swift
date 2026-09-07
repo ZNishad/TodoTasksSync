@@ -32,7 +32,6 @@ struct AppTextField: View {
                     .frame(height: Asset.AppSpacing.lg)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
-                    .keyboardType(.emailAddress)
                     .textContentType(.emailAddress)
             } else {
                 ZStack {

@@ -16,6 +16,7 @@
 		2121E44730176DBF00874814 /* TodoTasksSyncUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E44430176DBF00874814 /* TodoTasksSyncUITests.swift */; };
 		2121E44830176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E44530176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift */; };
 		2121E498301777CC00874814 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2121E497301777CC00874814 /* AuthManager.swift */; };
+		212C957C304EBAD70067B07B /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212C957B304EBAD70067B07B /* TaskDetailView.swift */; };
 		215C95923020796F00508E06 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 215C95913020796F00508E06 /* GoogleSignIn */; };
 		215C959430207AC200508E06 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 215C959330207AC200508E06 /* GoogleService-Info.plist */; };
 		215C95E53021D88F00508E06 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E43021D88F00508E06 /* TaskManager.swift */; };
@@ -74,6 +75,7 @@
 		2121E44430176DBF00874814 /* TodoTasksSyncUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTasksSyncUITests.swift; sourceTree = "<group>"; };
 		2121E44530176DBF00874814 /* TodoTasksSyncUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTasksSyncUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2121E497301777CC00874814 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		212C957B304EBAD70067B07B /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		215C959330207AC200508E06 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		215C95E43021D88F00508E06 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		215C95E73021D8BA00508E06 /* TodoTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTask.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				21D40BC7302209490092B815 /* HistoryView.swift */,
 				21D40CC83025CCA90092B815 /* AddTaskView.swift */,
 				21D40CCA302615090092B815 /* ProfileView.swift */,
+				212C957B304EBAD70067B07B /* TaskDetailView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				21D40CC93025CCA90092B815 /* AddTaskView.swift in Sources */,
 				21E8F1F3301FA048005C972B /* EmailValidatior.swift in Sources */,
 				21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */,
+				212C957C304EBAD70067B07B /* TaskDetailView.swift in Sources */,
 				21D40CC3302368E70092B815 /* TaskCard.swift in Sources */,
 				21D40CC73025C9F40092B815 /* TaskListView.swift in Sources */,
 				21D40BC8302209490092B815 /* HistoryView.swift in Sources */,

@@ -76,6 +76,9 @@ struct Asset {
         static let option = Image(systemName: "ellipsis")
         static let noTask = Image(.noTask)
         static let noHistory = Image(.noHistory)
+        static let headerClokc = Image(.clock)
+        static let headerSuccess = Image(.successIMG)
+        static let headerWarning = Image(.warningIMG)
 
     }
 

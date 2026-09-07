@@ -25,7 +25,6 @@ struct AddTaskView: View {
                          iconName: "list.bullet.clipboard",
                          fieldText: $title)
 
-
             DatePicker(
                 "Due date".localized,
                 selection: $dueDate,

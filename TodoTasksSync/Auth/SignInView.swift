@@ -92,7 +92,7 @@ extension SignInView {
 
                 AppTextField(placeholder: "Enter your email".localized,
                              iconName: "envelope.fill",
-                             fieldText: $emailFieldText)
+                             fieldText: $emailFieldText).keyboardType(.emailAddress)
             }
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {

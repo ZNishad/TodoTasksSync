@@ -27,7 +27,6 @@ struct TaskCard: View {
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(task.isCompleted ? Asset.AppColor.appSecondaryText : Asset.AppColor.appPrimaryText)
                     .strikethrough(task.isCompleted)
-                    .lineLimit(1)
 
                 HStack(spacing: 4) {
                     Asset.AppImage.calendar

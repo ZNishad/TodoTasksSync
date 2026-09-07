@@ -19,6 +19,7 @@ struct MainView: View {
     @State private var showAddTask = false
     @State private var showProfile = false
     @State private var showLogoutConfirmation = false
+    @State private var selectedTask: TodoTask?
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -84,6 +85,12 @@ struct MainView: View {
         .sheet(isPresented: $showProfile) {
             ProfileView()
                 .presentationDetents([authManager.isGoogleUser ? .fraction(0.45) : .large])
+                .presentationBackground(Asset.AppColor.appBackground)
+                .presentationDragIndicator(.visible)
+        }
+        .sheet(item: $selectedTask) { task in
+            TaskDetailView(task: task)
+                .presentationDetents([authManager.isGoogleUser ? .fraction(0.6) : .large])
                 .presentationBackground(Asset.AppColor.appBackground)
                 .presentationDragIndicator(.visible)
         }
@@ -165,6 +172,9 @@ extension MainView {
             },
             onDelete: { task in
                 taskManager.deleteTask(task)
+            },
+            onTap: { task in
+                selectedTask = task
             }
         )
         .overlay {
@@ -191,6 +201,9 @@ extension MainView {
             },
             onDelete: { task in
                 taskManager.deleteTask(task)
+            },
+            onTap: { task in
+                selectedTask = task
             }
         )
         .overlay {

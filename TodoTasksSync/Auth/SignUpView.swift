@@ -102,7 +102,7 @@ extension SignUpView {
                 AppTextField(placeholder: "Enter your email".localized,
                              iconName: "envelope.fill",
                              isError: !validation.isEmailValid && !emailFieldText.isEmpty,
-                             fieldText: $emailFieldText)
+                             fieldText: $emailFieldText).keyboardType(.emailAddress)
 
             }
 
