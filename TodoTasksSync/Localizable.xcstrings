@@ -270,6 +270,17 @@
         }
       }
     },
+    "Edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить"
+          }
+        }
+      }
+    },
     "Email" : {
       "comment" : "A label displayed above the email field.",
       "extractionState" : "stale",
@@ -687,6 +698,17 @@
         }
       }
     },
+    "Save changes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        }
+      }
+    },
     "Send Reset Link" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -800,6 +822,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Напоминание о задаче"
+          }
+        }
+      }
+    },
+    "Task title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название задачи"
           }
         }
       }

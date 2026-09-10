@@ -11,7 +11,30 @@ struct TaskDetailView: View {
 
     let task: TodoTask
 
+    @EnvironmentObject private var taskManager: TaskManager
     @Environment(\.dismiss) private var dismiss
+
+    @State private var isEditing = false
+    @State private var draftTitle = ""
+    @State private var draftDueDate = Date()
+
+    /// The sheet is handed the snapshot that existed when the row was tapped. Reading
+    /// the live copy back out of the manager keeps this view honest after an edit — and
+    /// after a change made on another device — instead of rendering stale values.
+    private var currentTask: TodoTask {
+        taskManager.tasks.first { $0.id == task.id } ?? task
+    }
+
+    private var trimmedDraftTitle: String {
+        draftTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// Saving is offered only for a non-empty title that actually differs from what
+    /// is stored, so the button cannot fire a write that changes nothing.
+    private var canSave: Bool {
+        guard !trimmedDraftTitle.isEmpty else { return false }
+        return trimmedDraftTitle != currentTask.title || draftDueDate != currentTask.dueDate
+    }
 
     var body: some View {
         VStack(spacing: Asset.AppSpacing.lg) {
@@ -19,22 +42,22 @@ struct TaskDetailView: View {
 
             VStack(spacing: Asset.AppSpacing.sm) {
                 statusBadge
-
-                Text(task.title)
-                    .font(Asset.AppFont.appTitle2)
-                    .foregroundStyle(Asset.AppColor.appPrimaryText)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
+                titleSection
             }
 
             detailsCard
 
-            Spacer()
+            Spacer(minLength: Asset.AppSpacing.md)
+
+            actions
         }
         .padding(Asset.AppSpacing.lg)
         .frame(maxWidth: .infinity)
+        .animation(.easeInOut(duration: 0.25), value: isEditing)
     }
 }
+
+// MARK: - Sections
 
 private extension TaskDetailView {
 
@@ -44,6 +67,7 @@ private extension TaskDetailView {
             .scaledToFit()
             .frame(width: 150, height: 150)
             .padding(.top, Asset.AppSpacing.md)
+            .accessibilityHidden(true)
     }
 
     var statusBadge: some View {
@@ -55,26 +79,36 @@ private extension TaskDetailView {
             .background(statusColor.opacity(0.1), in: Capsule())
     }
 
+    @ViewBuilder
+    var titleSection: some View {
+        if isEditing {
+            AppTextField(
+                placeholder: "Task title".localized,
+                iconName: "list.bullet.clipboard",
+                isError: trimmedDraftTitle.isEmpty,
+                autocapitalization: .sentences,
+                fieldText: $draftTitle
+            )
+        } else {
+            Text(currentTask.title)
+                .font(Asset.AppFont.appTitle2)
+                .foregroundStyle(Asset.AppColor.appPrimaryText)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
     var detailsCard: some View {
         VStack(spacing: Asset.AppSpacing.md) {
-            if let dueDate = task.dueDate {
-                detailRow(
-                    icon: "calendar",
-                    title: "Due date".localized,
-                    value: dueDate.formatted(date: .abbreviated, time: .shortened),
-                    subtitle: dueDate.formatted(.relative(presentation: .named))
-                )
-
-                Divider()
-            }
+            dueDateRow
 
             detailRow(
                 icon: "plus.circle",
                 title: "Created".localized,
-                value: task.createdAt.formatted(date: .abbreviated, time: .shortened)
+                value: currentTask.createdAt.formatted(date: .abbreviated, time: .shortened)
             )
 
-            if let completedAt = task.completedAt {
+            if let completedAt = currentTask.completedAt {
                 Divider()
 
                 detailRow(
@@ -91,12 +125,85 @@ private extension TaskDetailView {
         )
     }
 
+    @ViewBuilder
+    var dueDateRow: some View {
+        if isEditing {
+            HStack(spacing: Asset.AppSpacing.md) {
+                rowIcon("calendar")
+
+                DatePicker(
+                    "Due date".localized,
+                    selection: $draftDueDate,
+                    displayedComponents: [.date, .hourAndMinute]
+                )
+                .font(Asset.AppFont.appSubheadline)
+                .foregroundStyle(Asset.AppColor.appSecondaryText)
+                // The keyboard is still up from the title field and would otherwise
+                // cover the wheels.
+                .onChange(of: draftDueDate) {
+                    hideKeyboard()
+                }
+            }
+
+            Divider()
+        } else if let dueDate = currentTask.dueDate {
+            detailRow(
+                icon: "calendar",
+                title: "Due date".localized,
+                value: dueDate.formatted(date: .abbreviated, time: .shortened),
+                subtitle: dueDate.formatted(.relative(presentation: .named))
+            )
+
+            Divider()
+        }
+    }
+
+    @ViewBuilder
+    var actions: some View {
+        if isEditing {
+            HStack(spacing: Asset.AppSpacing.md) {
+                AppButton(title: "Cancel", style: .clean) {
+                    hideKeyboard()
+                    isEditing = false
+                }
+
+                AppButton(title: "Save changes", style: .primary, isDisabled: !canSave) {
+                    hideKeyboard()
+                    taskManager.updateTask(
+                        currentTask,
+                        title: draftTitle,
+                        dueDate: draftDueDate
+                    )
+                    isEditing = false
+                }
+            }
+        } else {
+            AppButton(title: "Edit", style: .secondary) {
+                // Seeded on entry rather than on appear, so re-entering edit mode always
+                // starts from what is stored, discarding an abandoned draft.
+                draftTitle = currentTask.title
+                draftDueDate = currentTask.dueDate ?? Date().endOfDay
+                isEditing = true
+            }
+        }
+    }
+}
+
+// MARK: - Row building blocks
+
+private extension TaskDetailView {
+
+    func rowIcon(_ systemName: String) -> some View {
+        Image(systemName: systemName)
+            .font(Asset.AppFont.appBody)
+            .foregroundStyle(Asset.AppColor.appPrimaryYellow)
+            .frame(width: 24)
+            .accessibilityHidden(true)
+    }
+
     func detailRow(icon: String, title: String, value: String, subtitle: String? = nil) -> some View {
         HStack(spacing: Asset.AppSpacing.md) {
-            Image(systemName: icon)
-                .font(Asset.AppFont.appBody)
-                .foregroundStyle(Asset.AppColor.appPrimaryYellow)
-                .frame(width: 24)
+            rowIcon(icon)
 
             Text(title)
                 .font(Asset.AppFont.appSubheadline)
@@ -113,17 +220,22 @@ private extension TaskDetailView {
                 if let subtitle {
                     Text(subtitle)
                         .font(Asset.AppFont.appCaption2)
-                        .foregroundStyle(task.isOverdue ? Asset.AppColor.isError : Asset.AppColor.appSecondaryText)
+                        .foregroundStyle(currentTask.isOverdue ? Asset.AppColor.isError : Asset.AppColor.appSecondaryText)
                         .lineLimit(1)
                 }
             }
         }
     }
+}
+
+// MARK: - Status
+
+private extension TaskDetailView {
 
     var statusText: String {
-        if task.isCompleted {
+        if currentTask.isCompleted {
             return "Completed".localized
-        } else if task.isOverdue {
+        } else if currentTask.isOverdue {
             return "Overdue".localized
         } else {
             return "Active".localized
@@ -131,9 +243,9 @@ private extension TaskDetailView {
     }
 
     var statusImage: Image {
-        if task.isCompleted {
+        if currentTask.isCompleted {
             return Asset.AppImage.headerSuccess
-        } else if task.isOverdue {
+        } else if currentTask.isOverdue {
             return Asset.AppImage.headerWarning
         } else {
             return Asset.AppImage.headerClock
@@ -141,9 +253,9 @@ private extension TaskDetailView {
     }
 
     var statusColor: Color {
-        if task.isCompleted {
+        if currentTask.isCompleted {
             return Asset.AppColor.isSuccess
-        } else if task.isOverdue {
+        } else if currentTask.isOverdue {
             return Asset.AppColor.isError
         } else {
             return Asset.AppColor.appPrimaryYellow

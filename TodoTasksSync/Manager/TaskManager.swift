@@ -121,6 +121,37 @@ final class TaskManager: ObservableObject {
         }
     }
 
+    /// Applies an edit to the title and the due date in a single write.
+    ///
+    /// The reminder is derived from the due date, so it is re-scheduled unconditionally:
+    /// `scheduleNotification` clears the stale request first and declines to re-arm one
+    /// for a task that is completed or already past due, so no branching is needed here.
+    func updateTask(_ task: TodoTask, title: String, dueDate: Date) {
+        guard let id = task.id else { return }
+
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty else { return }
+
+        db.collection("tasks").document(id).updateData([
+            "title": trimmedTitle,
+            "dueDate": Timestamp(date: dueDate)
+        ]) { [weak self] error in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+
+                if let error {
+                    self.errorMessage = error.localizedDescription
+                    return
+                }
+
+                var updated = task
+                updated.title = trimmedTitle
+                updated.dueDate = dueDate
+                self.notificationManager.scheduleNotification(for: updated)
+            }
+        }
+    }
+
     func reschedule(_ task: TodoTask, to dueDate: Date) {
         guard let id = task.id else { return }
 
