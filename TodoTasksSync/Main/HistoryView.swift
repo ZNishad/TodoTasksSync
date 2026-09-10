@@ -11,75 +11,87 @@ struct HistoryView: View {
     @EnvironmentObject private var taskManager: TaskManager
 
     var body: some View {
-        header
+        list
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .title) {
-                    Text("History")
+                    Text("History".localized)
                         .font(Asset.AppFont.appTitle1)
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Asset.AppImage.clock
-                        .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                        .foregroundStyle(Asset.AppColor.appPrimaryYellow)
+                        .accessibilityHidden(true)
                 }
-
             }
     }
 }
 
-extension HistoryView {
-    private var header: some View {
+private extension HistoryView {
+
+    var list: some View {
         List {
-            ForEach(historyTasks.keys.sorted(by: >), id: \.self) { date in
+            ForEach(historyDays, id: \.date) { day in
                 Section {
-                    ForEach(historyTasks[date] ?? []) { task in
+                    ForEach(day.tasks) { task in
                         HStack {
                             Text(task.title)
 
                             Spacer()
 
                             Text(task.completedAt?.formatted(.dateTime.hour().minute()) ?? "")
+                                .foregroundStyle(Asset.AppColor.appSecondaryText)
                         }
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
                                 taskManager.deleteTask(task)
                             } label: {
-                                Asset.AppImage.trash
+                                Label("Delete".localized, systemImage: "trash")
                             }
                         }
                     }
                 } header: {
-                    Text(date.formatted(.dateTime.month(.wide).day()))
+                    Text(day.date.formatted(.dateTime.month(.wide).day()))
                 }
             }
         }
         .overlay {
-            if historyTasks.isEmpty {
+            if historyDays.isEmpty {
                 Asset.AppImage.noHistory
                     .resizable()
                     .scaledToFill()
                     .frame(width: 250, height: 250)
                     .offset(y: -75)
+                    .accessibilityLabel("No completed tasks yet".localized)
             }
         }
-
     }
-}
 
-private extension HistoryView {
-    private var historyTasks: [Date: [TodoTask]] {
-        Dictionary(grouping: taskManager.tasks.filter { task in
-            guard let dueDate = task.dueDate,
-                  task.isCompleted else {
-                return false
-            }
+    /// Completed tasks from previous days, grouped by the day they were *completed*
+    /// — grouping by due date filed a task finished today under yesterday's header.
+    var historyDays: [(date: Date, tasks: [TodoTask])] {
+        let calendar = Calendar.current
+        let startOfToday = calendar.startOfDay(for: Date())
 
-            return dueDate < Calendar.current.startOfDay(for: Date())
-        }) { task in
-            Calendar.current.startOfDay(
-                for: task.dueDate!
-            )
+        let completed = taskManager.tasks.compactMap { task -> (day: Date, task: TodoTask)? in
+            guard task.isCompleted, let completedAt = task.completedAt else { return nil }
+
+            let day = calendar.startOfDay(for: completedAt)
+            guard day < startOfToday else { return nil }
+
+            return (day, task)
         }
+
+        return Dictionary(grouping: completed, by: \.day)
+            .map { day, entries in
+                (
+                    date: day,
+                    tasks: entries
+                        .map(\.task)
+                        .sorted { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
+                )
+            }
+            .sorted { $0.date > $1.date }
     }
 }

@@ -15,7 +15,7 @@ struct TaskDetailView: View {
 
     var body: some View {
         VStack(spacing: Asset.AppSpacing.lg) {
-            headerIcon
+            headerImage
 
             VStack(spacing: Asset.AppSpacing.sm) {
                 statusBadge
@@ -31,7 +31,6 @@ struct TaskDetailView: View {
 
             Spacer()
         }
-        .padding(.top, Asset.AppSpacing.md)
         .padding(Asset.AppSpacing.lg)
         .frame(maxWidth: .infinity)
     }
@@ -39,11 +38,12 @@ struct TaskDetailView: View {
 
 private extension TaskDetailView {
 
-    var headerIcon: some View {
+    var headerImage: some View {
         statusImage
             .resizable()
             .scaledToFit()
-            .frame(width: 100, height: 100)
+            .frame(width: 150, height: 150)
+            .padding(.top, Asset.AppSpacing.md)
     }
 
     var statusBadge: some View {
@@ -95,7 +95,7 @@ private extension TaskDetailView {
         HStack(spacing: Asset.AppSpacing.md) {
             Image(systemName: icon)
                 .font(Asset.AppFont.appBody)
-                .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                .foregroundStyle(Asset.AppColor.appPrimaryYellow)
                 .frame(width: 24)
 
             Text(title)
@@ -136,7 +136,7 @@ private extension TaskDetailView {
         } else if task.isOverdue {
             return Asset.AppImage.headerWarning
         } else {
-            return Asset.AppImage.headerClokc
+            return Asset.AppImage.headerClock
         }
     }
 
@@ -146,7 +146,7 @@ private extension TaskDetailView {
         } else if task.isOverdue {
             return Asset.AppColor.isError
         } else {
-            return Asset.AppColor.appPrimraryYellow
+            return Asset.AppColor.appPrimaryYellow
         }
     }
 }

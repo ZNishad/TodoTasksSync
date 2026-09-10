@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
 import GoogleSignIn
 import Combine
 
@@ -58,7 +59,7 @@ final class AuthManager: ObservableObject {
             try await result.user.reload()
 
             guard let user = Auth.auth().currentUser else {
-                errorMessage = "User is not authenticated"
+                errorMessage = "User is not authenticated".localized
                 return
             }
 
@@ -97,7 +98,7 @@ final class AuthManager: ObservableObject {
         guard let rootViewController = UIApplication.shared.connectedScenes
             .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
             .first?.rootViewController else {
-            errorMessage = "Unable to find root view controller"
+            errorMessage = "Unable to find root view controller".localized
             return
         }
 
@@ -105,7 +106,7 @@ final class AuthManager: ObservableObject {
             let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
 
             guard let idToken = result.user.idToken?.tokenString else {
-                errorMessage = "Failed to get ID token"
+                errorMessage = "Failed to get ID token".localized
                 return
             }
 
@@ -116,15 +117,24 @@ final class AuthManager: ObservableObject {
 
             _ = try await Auth.auth().signIn(with: credential)
         } catch {
+            // Dismissing the Google sheet is a normal user action, not something
+            // to raise an alert about.
+            let nsError = error as NSError
+            guard !(nsError.domain == kGIDSignInErrorDomain
+                    && nsError.code == Self.googleSignInCanceledCode) else { return }
+
             errorMessage = error.localizedDescription
         }
     }
+
+    /// `kGIDSignInErrorCodeCanceled`.
+    private static let googleSignInCanceledCode = -5
 
     func updateUserName(_ name: String) async -> Bool {
         errorMessage = nil
 
         guard let user = Auth.auth().currentUser else {
-            errorMessage = "User is not authenticated"
+            errorMessage = "User is not authenticated".localized
             return false
         }
 
@@ -159,7 +169,7 @@ final class AuthManager: ObservableObject {
         errorMessage = nil
 
         guard let user = Auth.auth().currentUser, let email = user.email else {
-            errorMessage = "User is not authenticated"
+            errorMessage = "User is not authenticated".localized
             return false
         }
 
@@ -177,33 +187,60 @@ final class AuthManager: ObservableObject {
         }
     }
 
+    /// Reauthenticates, deletes every task owned by the user, then deletes the account itself.
+    /// Firebase requires a recent login before `delete()`, so reauthentication is mandatory —
+    /// Google users are reauthenticated silently, email users must supply their password.
     func deleteAccount(password: String? = nil) async -> Bool {
         errorMessage = nil
 
         guard let user = Auth.auth().currentUser else {
-            errorMessage = "User is not authenticated"
+            errorMessage = "User is not authenticated".localized
             return false
         }
 
         do {
-            if let email = user.email, let password {
-                let credential = EmailAuthProvider.credential(withEmail: email, password: password)
-                try await user.reauthenticate(with: credential)
-            } else if isGoogleUser {
+            if isGoogleUser {
                 guard let idToken = GIDSignIn.sharedInstance.currentUser?.idToken?.tokenString,
                       let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken.tokenString else {
-                    errorMessage = "Unable to reauthenticate with Google"
+                    errorMessage = "Unable to reauthenticate with Google".localized
                     return false
                 }
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
                 try await user.reauthenticate(with: credential)
+            } else if let email = user.email, let password, !password.isEmpty {
+                let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+                try await user.reauthenticate(with: credential)
+            } else {
+                errorMessage = "Please enter your password to delete your account.".localized
+                return false
             }
+
+            // Tasks must go before the account: once the user is gone the security rules
+            // no longer authorize the delete and the documents would be orphaned.
+            try await deleteAllTasks(for: user.uid)
 
             try await user.delete()
             return true
         } catch {
             errorMessage = error.localizedDescription
             return false
+        }
+    }
+
+    private func deleteAllTasks(for userId: String) async throws {
+        let db = Firestore.firestore()
+
+        let snapshot = try await db.collection("tasks")
+            .whereField("userId", isEqualTo: userId)
+            .getDocuments()
+
+        guard !snapshot.documents.isEmpty else { return }
+
+        // A write batch is capped at 500 operations.
+        for chunk in snapshot.documents.chunked(into: 400) {
+            let batch = db.batch()
+            chunk.forEach { batch.deleteDocument($0.reference) }
+            try await batch.commit()
         }
     }
 }

@@ -14,7 +14,7 @@ struct SignUpView: View {
     @State private var confirmPasswordFieldText: String = ""
     @State private var showAlert = false
     @State private var isSigningUp = false
-    @State private var isProvicyAccepted: Bool = false
+    @State private var isPrivacyAccepted: Bool = false
     @State private var showSuccessAlert: Bool = false
     @State private var showPrivacyPolicy = false
 
@@ -23,6 +23,9 @@ struct SignUpView: View {
     @EnvironmentObject private var authManager: AuthManager
 
 
+
+    /// Compile-time constant literal, so the force unwrap cannot fail.
+    fileprivate static let privacyPolicyURL = URL(string: "https://znishad.github.io/todotaskssync-privacy/")!
 
     private var validation: FormValidation {
         FormValidation(name: "", email: emailFieldText, password: passwordFieldText, confirmPassword: confirmPasswordFieldText)
@@ -80,11 +83,11 @@ extension SignUpView {
                 .padding(.bottom, Asset.AppSpacing.lg)
 
             VStack(spacing: Asset.AppSpacing.sm) {
-                Text("Create Account")
+                Text("Create Account".localized)
                     .font(Asset.AppFont.appTitle1)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
-                Text("Let's get you started")
+                Text("Let's get you started".localized)
                     .font(Asset.AppFont.appBody)
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
             }
@@ -95,37 +98,40 @@ extension SignUpView {
     private var mainSection: some View {
         VStack(spacing: Asset.AppSpacing.md) {
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
-                Text("Email")
+                Text("Email".localized)
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
                 AppTextField(placeholder: "Enter your email".localized,
                              iconName: "envelope.fill",
                              isError: !validation.isEmailValid && !emailFieldText.isEmpty,
-                             fieldText: $emailFieldText).keyboardType(.emailAddress)
-
+                             contentType: .emailAddress,
+                             fieldText: $emailFieldText)
+                    .keyboardType(.emailAddress)
             }
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
-                Text("Password")
+                Text("Password".localized)
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
                 AppTextField(placeholder: "Enter your password".localized,
                              iconName: "lock.fill",
                              isSecured: true,
+                             contentType: .newPassword,
                              fieldText: $passwordFieldText)
             }
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
-                Text("Confirm password")
+                Text("Confirm password".localized)
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
                 AppTextField(placeholder: "Confirm your password".localized,
                              iconName: "lock.fill",
                              isSecured: true,
-                             isError: !validation.passwordsMatch && !passwordFieldText.isEmpty,
+                             isError: !validation.passwordsMatch && !confirmPasswordFieldText.isEmpty,
+                             contentType: .newPassword,
                              fieldText: $confirmPasswordFieldText)
             }
         }
@@ -143,7 +149,7 @@ extension SignUpView {
                     .foregroundStyle(validation.hasMinLength ? Asset.AppColor.isSuccess : Asset.AppColor.appSecondaryText)
                     .padding(.top, Asset.AppSpacing.sm / 2)
 
-                Text("At least 8 characters")
+                Text("At least 8 characters".localized)
                     .font(Asset.AppFont.appSubheadline)
                     .foregroundStyle(validation.hasMinLength ? Asset.AppColor.isSuccess : Asset.AppColor.appSecondaryText)
 
@@ -159,7 +165,7 @@ extension SignUpView {
                     .foregroundStyle(validation.isPasswordValid ? Asset.AppColor.isSuccess : Asset.AppColor.appSecondaryText)
                     .padding(.top, Asset.AppSpacing.sm / 2)
 
-                Text("Uppercase, lowercase & number")
+                Text("Uppercase, lowercase & number".localized)
                     .font(Asset.AppFont.appSubheadline)
                     .foregroundStyle(validation.isPasswordValid ? Asset.AppColor.isSuccess: Asset.AppColor.appSecondaryText)
             }
@@ -173,9 +179,10 @@ extension SignUpView {
     @ViewBuilder
     private var footer: some View {
         VStack(spacing: Asset.AppSpacing.md) {
-            AppButton(title: "Sign Up", style: .primary, isLoading: isSigningUp, isDisabled: !validation.isFormValid || !isProvicyAccepted) {
-                guard !isSigningUp else { return }
-
+            AppButton(title: "Sign Up",
+                      style: .primary,
+                      isLoading: isSigningUp,
+                      isDisabled: !validation.isFormValid || !isPrivacyAccepted) {
                 isSigningUp = true
                 Task {
                     defer { isSigningUp = false }
@@ -188,41 +195,41 @@ extension SignUpView {
                     }
                 }
             }
-            .disabled(!validation.isFormValid || !isProvicyAccepted)
 
-            HStack() {
-                HStack() {
-                    Text("I have read the")
-                        .font(.system(size: 14))
+            HStack {
+                HStack {
+                    Text("I have read the".localized)
+                        .font(Asset.AppFont.appSubheadline)
                         .foregroundStyle(Asset.AppColor.appPrimaryText)
-
 
                     Button {
                         showPrivacyPolicy = true
                     } label: {
-                        Text("Privacy Policy")
+                        Text("Privacy Policy".localized)
                             .fontWeight(.bold)
-                            .foregroundStyle(Asset.AppColor.appPrimraryYellow)
-                            .font(.system(size: 14))
+                            .foregroundStyle(Asset.AppColor.appPrimaryYellow)
+                            .font(Asset.AppFont.appSubheadline)
                     }
                     .sheet(isPresented: $showPrivacyPolicy) {
-                        SafariView(url: URL(string: "https://znishad.github.io/todotaskssync-privacy/")!)
+                        SafariView(url: Self.privacyPolicyURL)
                     }
                 }
 
                 Spacer()
 
                 Button {
-                    isProvicyAccepted.toggle()
+                    isPrivacyAccepted.toggle()
                 } label: {
-                    isProvicyAccepted ? Asset.AppImage.checkmarkSquare : Asset.AppImage.square
+                    isPrivacyAccepted ? Asset.AppImage.checkmarkSquare : Asset.AppImage.square
                 }
-                .foregroundStyle(isProvicyAccepted ? Asset.AppColor.appPrimraryYellow : Asset.AppColor.appSecondaryText)
+                .foregroundStyle(isPrivacyAccepted ? Asset.AppColor.appPrimaryYellow : Asset.AppColor.appSecondaryText)
+                .accessibilityLabel("I have read the Privacy Policy".localized)
+                .accessibilityAddTraits(isPrivacyAccepted ? [.isSelected] : [])
             }
             .padding(.horizontal, Asset.AppSpacing.sm)
 
             HStack{
-                Text("Already have an account?")
+                Text("Already have an account?".localized)
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
 
@@ -231,9 +238,9 @@ extension SignUpView {
                 Button {
                     authRouter.push(.signIn)
                 } label: {
-                    Text("Sign In")
+                    Text("Sign In".localized)
                         .font(Asset.AppFont.appHeadline)
-                        .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                        .foregroundStyle(Asset.AppColor.appPrimaryYellow)
 
                 }
             }

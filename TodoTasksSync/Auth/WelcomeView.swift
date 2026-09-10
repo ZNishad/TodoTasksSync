@@ -32,21 +32,29 @@ extension WelcomeView {
                 .frame(width: 300, height: 300)
                 .padding(.bottom, Asset.AppSpacing.lg)
 
-            Text("Welcome to")
+            Text("Welcome to".localized)
                 .foregroundStyle(Asset.AppColor.appSecondaryText)
                 .font(Asset.AppFont.appTitle2)
 
-            Text("To Do & Tasks\(Text(": \(Text("Sync"))").foregroundStyle(Asset.AppColor.appPrimraryYellow))")
-                .font(Asset.AppFont.appLargeTitle)
-                .foregroundStyle(Asset.AppColor.appPrimaryText)
+            appNameTitle
 
-            Text("Plan your day. Stay focused. Get things done")
+            Text("Plan your day. Stay focused. Get things done".localized)
                 .multilineTextAlignment(.center)
                 .font(Asset.AppFont.appCallout)
                 .foregroundStyle(Asset.AppColor.appSecondaryText)
                 .lineLimit(2)
         }
         .padding(.bottom, Asset.AppSpacing.xxxl)
+    }
+
+    /// "To Do & Tasks" in the primary text colour, ": Sync" in the accent colour.
+    private var appNameTitle: some View {
+        (
+            Text("To Do & Tasks").foregroundStyle(Asset.AppColor.appPrimaryText)
+            + Text(": Sync").foregroundStyle(Asset.AppColor.appPrimaryYellow)
+        )
+        .font(Asset.AppFont.appLargeTitle)
+        .accessibilityLabel("To Do & Tasks: Sync")
     }
 
     @ViewBuilder
@@ -67,9 +75,10 @@ extension WelcomeView {
     private var footer: some View {
         HStack {
             Image(systemName: "lock.fill")
-                .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                .foregroundStyle(Asset.AppColor.appPrimaryYellow)
+                .accessibilityHidden(true)
 
-            Text("Your tasks, everywhere.")
+            Text("Your tasks, everywhere.".localized)
                 .font(Asset.AppFont.appFootnote)
                 .foregroundStyle(Asset.AppColor.appSecondaryText)
         }

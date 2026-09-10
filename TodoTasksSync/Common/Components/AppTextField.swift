@@ -12,6 +12,10 @@ struct AppTextField: View {
     let iconName: String?
     var isSecured: Bool = false
     var isError: Bool = false
+    /// Drives autofill and the keyboard's suggestion bar — must match what the field
+    /// actually holds, so it is supplied per call site instead of being hard-coded.
+    var contentType: UITextContentType? = nil
+    var autocapitalization: TextInputAutocapitalization = .never
     @State private var isPasswordVisible: Bool = false
 
     @Binding var fieldText: String
@@ -25,26 +29,24 @@ struct AppTextField: View {
                     .frame(width: Asset.AppSpacing.md, height: Asset.AppSpacing.md)
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
                     .padding(.leading, Asset.AppSpacing.md)
+                    .accessibilityHidden(true)
             }
 
             if !isSecured {
-                TextField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
-                    .frame(height: Asset.AppSpacing.lg)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .textContentType(.emailAddress)
+                styled(
+                    TextField("", text: $fieldText, prompt: promptText)
+                )
             } else {
                 ZStack {
-                    TextField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
-                        .frame(height: Asset.AppSpacing.lg)
-                        .opacity(isPasswordVisible ? 1 : 0)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                    SecureField("", text: $fieldText, prompt: Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText))
-                        .frame(height: Asset.AppSpacing.lg)
-                        .opacity(isPasswordVisible ? 0 : 1)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
+                    styled(
+                        TextField("", text: $fieldText, prompt: promptText)
+                    )
+                    .opacity(isPasswordVisible ? 1 : 0)
+
+                    styled(
+                        SecureField("", text: $fieldText, prompt: promptText)
+                    )
+                    .opacity(isPasswordVisible ? 0 : 1)
                 }
 
                 Button {
@@ -54,6 +56,7 @@ struct AppTextField: View {
                         .foregroundStyle(Asset.AppColor.appSecondaryText)
                 }
                 .padding(.horizontal, Asset.AppSpacing.md)
+                .accessibilityLabel(isPasswordVisible ? "Hide password".localized : "Show password".localized)
             }
         }
         .frame(maxWidth: .infinity)
@@ -65,5 +68,17 @@ struct AppTextField: View {
                 .stroke(isError ? Asset.AppColor.isError : Asset.AppColor.appSeparator, lineWidth: 1)
                 .animation(.easeInOut(duration: 0.25), value: isError)
         }
+    }
+
+    private var promptText: Text {
+        Text(placeholder).foregroundStyle(Asset.AppColor.appSecondaryText)
+    }
+
+    private func styled(_ field: some View) -> some View {
+        field
+            .frame(minHeight: Asset.AppSpacing.lg)
+            .textInputAutocapitalization(autocapitalization)
+            .autocorrectionDisabled()
+            .textContentType(contentType)
     }
 }

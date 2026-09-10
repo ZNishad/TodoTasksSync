@@ -13,7 +13,7 @@ enum AppButtonStyle {
     var background: Color {
         switch self {
         case .primary:
-            return Asset.AppColor.appPrimraryYellow
+            return Asset.AppColor.appPrimaryYellow
         case .secondary:
             return Asset.AppColor.appBackground
         case .clean:
@@ -28,7 +28,7 @@ enum AppButtonStyle {
         case .secondary:
             return Asset.AppColor.appSecondaryText
         case .clean:
-            return Asset.AppColor.appPrimraryYellow
+            return Asset.AppColor.appPrimaryYellow
         }
     }
 
@@ -52,13 +52,19 @@ struct AppButton: View {
     var isDisabled: Bool = false
     let action: () -> Void
 
+    /// Loading counts as disabled too, so a second tap can't fire the action
+    /// while the first one is still in flight.
+    private var isInteractionBlocked: Bool {
+        isDisabled || isLoading
+    }
 
     var body: some View {
         Button(action: action) {
             ZStack {
                 if isOverlayed {
                     Asset.AppImage.appGoogleLogo
-                        .offset(x: -Asset.AppSpacing.xxxl*3)
+                        .offset(x: -Asset.AppSpacing.xxxl * 3)
+                        .accessibilityHidden(true)
                 }
 
                 if isLoading {
@@ -69,21 +75,19 @@ struct AppButton: View {
                         .foregroundStyle(style.fontColor)
                         .frame(maxWidth: .infinity)
                 }
-
             }
             .padding(.vertical, Asset.AppSpacing.md)
-
         }
-        .frame(height: 55)
+        .disabled(isInteractionBlocked)
+        .frame(minHeight: 55)
         .frame(maxWidth: .infinity)
-        .background(isDisabled ? style.background.opacity(0.3) : style.background)
+        .background(isInteractionBlocked ? style.background.opacity(0.3) : style.background)
         .cornerRadius(Asset.AppSpacing.md)
-        .animation(.easeInOut(duration: 0.25), value: isDisabled)
+        .animation(.easeInOut(duration: 0.25), value: isInteractionBlocked)
         .overlay(
             RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
                 .stroke(style.borderColor, lineWidth: 0.6)
         )
-
-
+        .accessibilityLabel(Text(title.localized))
     }
 }

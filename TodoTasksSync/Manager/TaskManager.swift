@@ -9,7 +9,6 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 import Combine
-import NotificationCenter
 
 @MainActor
 final class TaskManager: ObservableObject {
@@ -27,20 +26,26 @@ final class TaskManager: ObservableObject {
     func startListening() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
+        // Drop any previous registration first, otherwise a second `onAppear`
+        // would stack listeners and leak them.
+        stopListening()
+
         listener = db.collection("tasks")
             .whereField("userId", isEqualTo: userId)
             .addSnapshotListener { [weak self] snapshot, error in
-                guard let self else { return }
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
 
-                if let error {
-                    self.errorMessage = error.localizedDescription
-                    return
-                }
+                    if let error {
+                        self.errorMessage = error.localizedDescription
+                        return
+                    }
 
-                guard let documents = snapshot?.documents else { return }
+                    guard let documents = snapshot?.documents else { return }
 
-                self.tasks = documents.compactMap { doc in
-                    try? doc.data(as: TodoTask.self)
+                    self.tasks = documents.compactMap { doc in
+                        try? doc.data(as: TodoTask.self)
+                    }
                 }
             }
     }
@@ -57,11 +62,14 @@ final class TaskManager: ObservableObject {
     func addTask(title: String, dueDate: Date?) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty else { return }
+
         let docRef = db.collection("tasks").document()
 
         let newTask = TodoTask(
             id: docRef.documentID,
-            title: title,
+            title: trimmedTitle,
             isCompleted: false,
             createdAt: Date(),
             dueDate: dueDate ?? Date().endOfDay,
@@ -113,17 +121,29 @@ final class TaskManager: ObservableObject {
         }
     }
 
-    func moveToToday(_ task: TodoTask) {
+    func reschedule(_ task: TodoTask, to dueDate: Date) {
         guard let id = task.id else { return }
 
         db.collection("tasks").document(id).updateData([
-            "dueDate": Date()
+            "dueDate": Timestamp(date: dueDate)
         ]) { [weak self] error in
             Task { @MainActor [weak self] in
+                guard let self else { return }
+
                 if let error {
-                    self?.errorMessage = error.localizedDescription
+                    self.errorMessage = error.localizedDescription
+                    return
                 }
+
+                // The reminder is derived from the due date, so it has to follow it.
+                var updated = task
+                updated.dueDate = dueDate
+                self.notificationManager.scheduleNotification(for: updated)
             }
         }
+    }
+
+    func moveToToday(_ task: TodoTask) {
+        reschedule(task, to: Date().endOfDay)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FormValidation {
+nonisolated struct FormValidation {
     let name: String
     let email: String
     let password: String

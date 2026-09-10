@@ -14,7 +14,7 @@ struct Asset {
     struct AppColor {
         private init() {}
 
-        static let appPrimraryYellow = SwiftUI.Color.primaryYellow
+        static let appPrimaryYellow = SwiftUI.Color.primaryYellow
         static let appBackground = SwiftUI.Color.background
         static let appPrimaryText = SwiftUI.Color.primaryText
         static let appSecondaryText = SwiftUI.Color.secondaryText
@@ -28,17 +28,19 @@ struct Asset {
     struct AppFont {
         private init() {}
 
-        static let appLargeTitle = SwiftUI.Font.system(size: 34, weight: .bold)
-        static let appTitle1 = SwiftUI.Font.system(size: 28, weight: .bold)
-        static let appTitle2 = SwiftUI.Font.system(size: 22, weight: .bold)
-        static let appTitle3 = SwiftUI.Font.system(size: 20, weight: .semibold)
-        static let appHeadline = SwiftUI.Font.system(size: 17, weight: .semibold)
-        static let appBody = SwiftUI.Font.system(size: 17, weight: .regular)
-        static let appCallout = SwiftUI.Font.system(size: 16, weight: .regular)
-        static let appSubheadline = SwiftUI.Font.system(size: 15, weight: .regular)
-        static let appFootnote = SwiftUI.Font.system(size: 13, weight: .regular)
-        static let appCaption1 = SwiftUI.Font.system(size: 12, weight: .regular)
-        static let appCaption2 = SwiftUI.Font.system(size: 11, weight: .regular)
+        // Text styles rather than fixed point sizes, so the app follows Dynamic Type.
+        // Each style's default size matches the point size it replaced.
+        static let appLargeTitle = SwiftUI.Font.system(.largeTitle, weight: .bold)   // 34
+        static let appTitle1 = SwiftUI.Font.system(.title, weight: .bold)            // 28
+        static let appTitle2 = SwiftUI.Font.system(.title2, weight: .bold)           // 22
+        static let appTitle3 = SwiftUI.Font.system(.title3, weight: .semibold)       // 20
+        static let appHeadline = SwiftUI.Font.system(.headline, weight: .semibold)   // 17
+        static let appBody = SwiftUI.Font.system(.body, weight: .regular)            // 17
+        static let appCallout = SwiftUI.Font.system(.callout, weight: .regular)      // 16
+        static let appSubheadline = SwiftUI.Font.system(.subheadline, weight: .regular) // 15
+        static let appFootnote = SwiftUI.Font.system(.footnote, weight: .regular)    // 13
+        static let appCaption1 = SwiftUI.Font.system(.caption, weight: .regular)     // 12
+        static let appCaption2 = SwiftUI.Font.system(.caption2, weight: .regular)    // 11
     }
 
     struct AppSpacing {
@@ -76,7 +78,7 @@ struct Asset {
         static let option = Image(systemName: "ellipsis")
         static let noTask = Image(.noTask)
         static let noHistory = Image(.noHistory)
-        static let headerClokc = Image(.clock)
+        static let headerClock = Image(.clock)
         static let headerSuccess = Image(.successIMG)
         static let headerWarning = Image(.warningIMG)
 

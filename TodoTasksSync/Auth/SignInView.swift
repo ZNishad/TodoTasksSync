@@ -70,11 +70,11 @@ extension SignInView {
                 .padding(.bottom, Asset.AppSpacing.lg)
 
             VStack(spacing: Asset.AppSpacing.sm) {
-                Text("Welcome Back")
+                Text("Welcome Back".localized)
                     .font(Asset.AppFont.appTitle1)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
-                Text("Sign in to continue")
+                Text("Sign in to continue".localized)
                     .font(Asset.AppFont.appBody)
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
             }
@@ -86,32 +86,35 @@ extension SignInView {
         VStack(spacing: Asset.AppSpacing.md) {
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
-                Text("Email")
+                Text("Email".localized)
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
                 AppTextField(placeholder: "Enter your email".localized,
                              iconName: "envelope.fill",
-                             fieldText: $emailFieldText).keyboardType(.emailAddress)
+                             contentType: .emailAddress,
+                             fieldText: $emailFieldText)
+                    .keyboardType(.emailAddress)
             }
 
             VStack(alignment: .leading, spacing: Asset.AppSpacing.sm) {
-                Text("Password")
+                Text("Password".localized)
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appPrimaryText)
 
                 AppTextField(placeholder: "Enter your password".localized,
                              iconName: "lock.fill",
                              isSecured: true,
+                             contentType: .password,
                              fieldText: $passwordFieldText)
                 HStack(alignment: .top) {
                     Spacer()
                     Button {
                         showForgotPassView.toggle()
                     } label: {
-                        Text("Forgot password?")
+                        Text("Forgot password?".localized)
                             .font(Asset.AppFont.appHeadline)
-                            .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                            .foregroundStyle(Asset.AppColor.appPrimaryYellow)
                     }
                 }
             }
@@ -121,9 +124,10 @@ extension SignInView {
     @ViewBuilder
     private var footer: some View {
         VStack(spacing: Asset.AppSpacing.md) {
-            AppButton(title: "Sign In".localized, style: .primary, isLoading: isSigningIn) {
-                guard !isSigningIn else { return }
-
+            AppButton(title: "Sign In".localized,
+                      style: .primary,
+                      isLoading: isSigningIn,
+                      isDisabled: isGoogleSigningIn) {
                 isSigningIn = true
 
                 Task {
@@ -142,7 +146,7 @@ extension SignInView {
                     .frame(height: 1)
                     .foregroundStyle(Asset.AppColor.appSeparator)
 
-                Text("or")
+                Text("or".localized)
                     .font(Asset.AppFont.appFootnote)
                     .foregroundStyle(Asset.AppColor.appSeparator)
 
@@ -151,20 +155,26 @@ extension SignInView {
                     .foregroundStyle(Asset.AppColor.appSeparator)
             }
 
-            AppButton(title: "Continue with Google", style: .secondary, isOverlayed: true, isLoading: isGoogleSigningIn) {
-                guard !isGoogleSigningIn else { return }
-
+            AppButton(title: "Continue with Google",
+                      style: .secondary,
+                      isOverlayed: true,
+                      isLoading: isGoogleSigningIn,
+                      isDisabled: isSigningIn) {
                 isGoogleSigningIn = true
 
                 Task {
                     defer { isGoogleSigningIn = false }
 
                     await authManager.signInWithGoogle()
+
+                    if authManager.errorMessage != nil {
+                        showAlert = true
+                    }
                 }
             }
 
             HStack{
-                Text("No account?")
+                Text("No account?".localized)
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
 
@@ -173,7 +183,7 @@ extension SignInView {
                 } label: {
                     Text("Sign Up")
                         .font(Asset.AppFont.appHeadline)
-                        .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                        .foregroundStyle(Asset.AppColor.appPrimaryYellow)
 
                 }
             }

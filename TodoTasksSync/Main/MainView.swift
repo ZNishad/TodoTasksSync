@@ -38,7 +38,7 @@ struct MainView: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Tasks")
+                Text("Tasks".localized)
                     .font(Asset.AppFont.appTitle1)
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -52,7 +52,7 @@ struct MainView: View {
                         }
 
                     } label: {
-                        Label(authManager.userName == "" ? "Profile".localized : authManager.firstName, systemImage: "person")
+                        Label(authManager.userName.isEmpty ? "Profile".localized : authManager.firstName, systemImage: "person")
                     }
 
                     Button {
@@ -71,8 +71,9 @@ struct MainView: View {
 
                 } label: {
                     Asset.AppImage.option
-                        .foregroundStyle(Asset.AppColor.appPrimraryYellow)
+                        .foregroundStyle(Asset.AppColor.appPrimaryYellow)
                 }
+                .accessibilityLabel("More options".localized)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -90,21 +91,36 @@ struct MainView: View {
         }
         .sheet(item: $selectedTask) { task in
             TaskDetailView(task: task)
-                .presentationDetents([authManager.isGoogleUser ? .fraction(0.6) : .large])
+                .presentationDetents([.fraction(0.75), .large])
                 .presentationBackground(Asset.AppColor.appBackground)
                 .presentationDragIndicator(.visible)
         }
-        .alert("Log Out?".localized, isPresented: $showLogoutConfirmation) {
-            Button("Cancel" , role: .cancel) { }
-            Button("Log out".localized, role: .destructive) {
+        // Key wording is deliberately distinct from the "Logout" menu item: the
+        // string catalog derives a Swift symbol per key and near-identical keys collide.
+        .alert("Log out of your account?".localized, isPresented: $showLogoutConfirmation) {
+            Button("Cancel".localized, role: .cancel) { }
+            Button("Yes, log out".localized, role: .destructive) {
                 authManager.signOut()
             }
         } message: {
             Text("Are you sure you want to log out?".localized)
-
         }
+        // Firestore write failures were previously only stored on the manager
+        // and never reached the user.
+        .alert("Error".localized, isPresented: taskErrorBinding) {
+            Button("OK".localized) { taskManager.errorMessage = nil }
+        } message: {
+            Text(taskManager.errorMessage ?? "")
+        }
+    }
 
-
+    private var taskErrorBinding: Binding<Bool> {
+        Binding(
+            get: { taskManager.errorMessage != nil },
+            set: { isPresented in
+                if !isPresented { taskManager.errorMessage = nil }
+            }
+        )
     }
 }
 
@@ -161,58 +177,36 @@ extension MainView {
 
     @ViewBuilder
     private var todayView: some View {
-        TaskListView(
-            sections: [
-                ("Overdue".localized, overdueTasks),
-                ("Active".localized, todayActiveTasks),
-                ("Completed".localized, todayCompletedTasks)
-            ],
-            onComplete: { task in
-                taskManager.toggleCompletion(for: task)
-            },
-            onDelete: { task in
-                taskManager.deleteTask(task)
-            },
-            onTap: { task in
-                selectedTask = task
-            }
-        )
-        .overlay {
-            if todayActiveTasks.isEmpty && todayCompletedTasks.isEmpty && overdueTasks.isEmpty {
-                Asset.AppImage.noTask
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 250, height: 250)
-                    .offset(y: -75)
-            }
-        }
-
+        taskList(for: todaySections, allowMoveToToday: true)
     }
 
     @ViewBuilder
     private var upcomingView: some View {
+        taskList(for: upcomingSections, allowMoveToToday: false)
+    }
+
+    /// One place that wires a set of sections to the manager, so the empty-state
+    /// check reuses the sections that were already computed instead of re-filtering.
+    @ViewBuilder
+    private func taskList(
+        for sections: [(title: String, tasks: [TodoTask])],
+        allowMoveToToday: Bool
+    ) -> some View {
         TaskListView(
-            sections: [
-                ("Active".localized, upcomingActiveTasks),
-                ("Completed".localized, upcomingCompletedTasks)
-            ],
-            onComplete: { task in
-                taskManager.toggleCompletion(for: task)
-            },
-            onDelete: { task in
-                taskManager.deleteTask(task)
-            },
-            onTap: { task in
-                selectedTask = task
-            }
+            sections: sections,
+            onComplete: { taskManager.toggleCompletion(for: $0) },
+            onDelete: { taskManager.deleteTask($0) },
+            onTap: { selectedTask = $0 },
+            onMoveToToday: allowMoveToToday ? { taskManager.moveToToday($0) } : nil
         )
         .overlay {
-            if upcomingActiveTasks.isEmpty && upcomingCompletedTasks.isEmpty {
+            if sections.allSatisfy(\.tasks.isEmpty) {
                 Asset.AppImage.noTask
                     .resizable()
                     .scaledToFill()
                     .frame(width: 250, height: 250)
                     .offset(y: -75)
+                    .accessibilityLabel("No tasks yet".localized)
             }
         }
     }
@@ -226,11 +220,12 @@ extension MainView {
                 .font(.system(size: 22, weight: .semibold))
                 .foregroundStyle(Asset.AppColor.appPrimaryText)
                 .frame(width: 56, height: 56)
-                .background(Asset.AppColor.appPrimraryYellow)
+                .background(Asset.AppColor.appPrimaryYellow)
                 .clipShape(Circle())
                 .shadow(radius: 4)
         }
         .padding(Asset.AppSpacing.lg)
+        .accessibilityLabel("Add Task".localized)
     }
 }
 
@@ -239,47 +234,77 @@ extension MainView {
 
 private extension MainView {
 
-    // MARK: - Today
+    var todaySections: [(title: String, tasks: [TodoTask])] {
+        let buckets = TaskBuckets(tasks: taskManager.tasks)
+        return [
+            ("Overdue".localized, buckets.overdue),
+            ("Active".localized, buckets.todayActive),
+            ("Completed".localized, buckets.todayCompleted)
+        ]
+    }
 
-    private var todayActiveTasks: [TodoTask] {
-        taskManager.tasks
-            .filter { task in
-                guard let dueDate = task.dueDate, !task.isCompleted else { return false }
-                return Calendar.current.isDateInToday(dueDate) && !task.isOverdue
+    var upcomingSections: [(title: String, tasks: [TodoTask])] {
+        let buckets = TaskBuckets(tasks: taskManager.tasks)
+        return [
+            ("Active".localized, buckets.upcomingActive),
+            ("Completed".localized, buckets.upcomingCompleted)
+        ]
+    }
+}
+
+/// Partitions the task list into the buckets the two segments display.
+/// A single pass, so switching segments or redrawing does not re-filter the
+/// whole array once per section plus once more for the empty-state check.
+/// Stays main-actor isolated along with `TodoTask`, which it reads.
+struct TaskBuckets {
+    private(set) var overdue: [TodoTask] = []
+    private(set) var todayActive: [TodoTask] = []
+    private(set) var todayCompleted: [TodoTask] = []
+    private(set) var upcomingActive: [TodoTask] = []
+    private(set) var upcomingCompleted: [TodoTask] = []
+
+    init(tasks: [TodoTask], now: Date = Date(), calendar: Calendar = .current) {
+        for task in tasks {
+            guard let dueDate = task.dueDate else { continue }
+
+            // Compared against the injected `now`, not `isDateInToday`, so the
+            // whole partition has a single source of truth for "today".
+            let isToday = calendar.isDate(dueDate, inSameDayAs: now)
+
+            if task.isCompleted {
+                // Keyed off the completion date, not the due date. Keying off the due
+                // date made a task finished today but due earlier fall through every
+                // bucket — History only covers previous days — and vanish from the UI.
+                let completionDay = task.completedAt ?? dueDate
+
+                if calendar.isDate(completionDay, inSameDayAs: now) {
+                    todayCompleted.append(task)
+                } else if dueDate > now {
+                    upcomingCompleted.append(task)
+                }
+                // Completed on an earlier day and no longer upcoming — that is History.
+            } else if dueDate < now {
+                overdue.append(task)
+            } else if isToday {
+                todayActive.append(task)
+            } else {
+                upcomingActive.append(task)
             }
-            .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
-    }
-
-    private var overdueTasks: [TodoTask] {
-        taskManager.tasks.filter { $0.isOverdue }
-            .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
-    }
-
-    private var todayCompletedTasks: [TodoTask] {
-        taskManager.tasks.filter { task in
-            guard let dueDate = task.dueDate, task.isCompleted else { return false }
-            return Calendar.current.isDateInToday(dueDate)
         }
-        .sorted { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
+
+        // Written inline rather than hoisted into named comparators. `sort(by:)`
+        // invokes its predicate in a nonisolated context, and a `static func` would
+        // carry this target's `MainActor` default isolation, which cannot cross into
+        // it. A closure literal infers the caller's isolation, so it can.
+        //
+        // Soonest due first.
+        overdue.sort { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
+        todayActive.sort { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
+        upcomingActive.sort { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
+
+        // Most recently completed first.
+        todayCompleted.sort { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
+        upcomingCompleted.sort { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
     }
-
-    // MARK: - Upcoming
-
-    private var upcomingActiveTasks: [TodoTask] {
-        taskManager.tasks.filter { task in
-            guard let dueDate = task.dueDate, !task.isCompleted else { return false }
-            return dueDate > Date() && !Calendar.current.isDateInToday(dueDate)
-        }
-        .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
-    }
-
-    private var upcomingCompletedTasks: [TodoTask] {
-        taskManager.tasks.filter { task in
-            guard let dueDate = task.dueDate, task.isCompleted else { return false }
-            return dueDate > Date() && !Calendar.current.isDateInToday(dueDate)
-        }
-        .sorted { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
-    }
-
 }
 

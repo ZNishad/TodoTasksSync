@@ -35,7 +35,7 @@
 		21B4C4363019F0E700147D09 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C4353019F0E700147D09 /* AppButton.swift */; };
 		21B4C487301A1CB400147D09 /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C486301A1CB400147D09 /* AppTextField.swift */; };
 		21B4C527301CAF9800147D09 /* LoadingDotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C526301CAF9800147D09 /* LoadingDotsView.swift */; };
-		21B4C5C6301F663A00147D09 /* FormVaildation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C5C5301F663A00147D09 /* FormVaildation.swift */; };
+		21B4C5C6301F663A00147D09 /* FormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B4C5C5301F663A00147D09 /* FormValidation.swift */; };
 		21D40BC6302208AB0092B815 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40BC5302208AB0092B815 /* MainView.swift */; };
 		21D40BC8302209490092B815 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40BC7302209490092B815 /* HistoryView.swift */; };
 		21D40CC3302368E70092B815 /* TaskCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40CC2302368E70092B815 /* TaskCard.swift */; };
@@ -44,7 +44,7 @@
 		21D40CCB302615090092B815 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D40CCA302615090092B815 /* ProfileView.swift */; };
 		21E8F1EF301F94AE005C972B /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1EE301F94AE005C972B /* ForgotPassView.swift */; };
 		21E8F1F1301F9CFE005C972B /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1F0301F9CFE005C972B /* Helpers.swift */; };
-		21E8F1F3301FA048005C972B /* EmailValidatior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1F2301FA048005C972B /* EmailValidatior.swift */; };
+		21E8F1F3301FA048005C972B /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1F2301FA048005C972B /* EmailValidator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,7 +93,7 @@
 		21B4C4353019F0E700147D09 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		21B4C486301A1CB400147D09 /* AppTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		21B4C526301CAF9800147D09 /* LoadingDotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDotsView.swift; sourceTree = "<group>"; };
-		21B4C5C5301F663A00147D09 /* FormVaildation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVaildation.swift; sourceTree = "<group>"; };
+		21B4C5C5301F663A00147D09 /* FormValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidation.swift; sourceTree = "<group>"; };
 		21D40BC5302208AB0092B815 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		21D40BC7302209490092B815 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		21D40CC2302368E70092B815 /* TaskCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCard.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 		21D40CCA302615090092B815 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		21E8F1EE301F94AE005C972B /* ForgotPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassView.swift; sourceTree = "<group>"; };
 		21E8F1F0301F9CFE005C972B /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		21E8F1F2301FA048005C972B /* EmailValidatior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidatior.swift; sourceTree = "<group>"; };
+		21E8F1F2301FA048005C972B /* EmailValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,8 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				21B4C4333019E68E00147D09 /* Asset.swift */,
-				21B4C5C5301F663A00147D09 /* FormVaildation.swift */,
-				21E8F1F2301FA048005C972B /* EmailValidatior.swift */,
+				21B4C5C5301F663A00147D09 /* FormValidation.swift */,
+				21E8F1F2301FA048005C972B /* EmailValidator.swift */,
 				21B4C3E13018C48D00147D09 /* String+Localized.swift */,
 				21E8F1F0301F9CFE005C972B /* Helpers.swift */,
 				2183736F302CA62300D20029 /* SafariView.swift */,
@@ -420,7 +420,7 @@
 				21B4C4363019F0E700147D09 /* AppButton.swift in Sources */,
 				21E8F1EF301F94AE005C972B /* ForgotPassView.swift in Sources */,
 				21D40CC93025CCA90092B815 /* AddTaskView.swift in Sources */,
-				21E8F1F3301FA048005C972B /* EmailValidatior.swift in Sources */,
+				21E8F1F3301FA048005C972B /* EmailValidator.swift in Sources */,
 				21B4C3DA30189DD800147D09 /* SignInView.swift in Sources */,
 				212C957C304EBAD70067B07B /* TaskDetailView.swift in Sources */,
 				21D40CC3302368E70092B815 /* TaskCard.swift in Sources */,
@@ -433,7 +433,7 @@
 				215C95EA3021F99F00508E06 /* TaskRouter.swift in Sources */,
 				21B4C4343019E68E00147D09 /* Asset.swift in Sources */,
 				21837370302CA62300D20029 /* SafariView.swift in Sources */,
-				21B4C5C6301F663A00147D09 /* FormVaildation.swift in Sources */,
+				21B4C5C6301F663A00147D09 /* FormValidation.swift in Sources */,
 				21B4C3D830189C3600147D09 /* WelcomeView.swift in Sources */,
 				21B4C527301CAF9800147D09 /* LoadingDotsView.swift in Sources */,
 				215C95E53021D88F00508E06 /* TaskManager.swift in Sources */,

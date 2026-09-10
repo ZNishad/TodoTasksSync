@@ -12,8 +12,8 @@ struct TaskListView: View {
     let onComplete: (TodoTask) -> Void
     let onDelete: (TodoTask) -> Void
     let onTap: (TodoTask) -> Void
-
-    @EnvironmentObject private var taskManager: TaskManager
+    /// Optional — when provided, overdue rows offer a "move to today" swipe action.
+    var onMoveToToday: ((TodoTask) -> Void)? = nil
 
     var body: some View {
         List {
@@ -21,31 +21,7 @@ struct TaskListView: View {
                 if !section.tasks.isEmpty {
                     Section(section.title) {
                         ForEach(section.tasks) { task in
-                            TaskCard(task: task)
-                                .onTapGesture {
-                                    onTap(task)
-                                }
-                                .swipeActions(edge: .trailing) {
-                                    Button(role: .destructive) {
-                                        taskManager.deleteTask(task)
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
-                                    }
-                                }
-                                .swipeActions(edge: .leading) {
-                                    Button {
-                                        taskManager.toggleCompletion(for: task)
-                                    } label: {
-                                        if task.isCompleted {
-                                            Label("Undo", systemImage: "arrow.uturn.backward")
-                                        } else {
-                                            Label("Done", systemImage: "checkmark")
-                                        }
-                                    }
-                                    .tint(task.isCompleted ? Asset.AppColor.appPrimraryYellow : Asset.AppColor.isSuccess)
-                                }
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.clear)
+                            row(for: task)
                         }
                     }
                 }
@@ -54,6 +30,43 @@ struct TaskListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
     }
+
+    @ViewBuilder
+    private func row(for task: TodoTask) -> some View {
+        TaskCard(task: task)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                onTap(task)
+            }
+            .swipeActions(edge: .trailing) {
+                Button(role: .destructive) {
+                    onDelete(task)
+                } label: {
+                    Label("Delete".localized, systemImage: "trash")
+                }
+            }
+            .swipeActions(edge: .leading) {
+                Button {
+                    onComplete(task)
+                } label: {
+                    if task.isCompleted {
+                        Label("Undo".localized, systemImage: "arrow.uturn.backward")
+                    } else {
+                        Label("Done".localized, systemImage: "checkmark")
+                    }
+                }
+                .tint(task.isCompleted ? Asset.AppColor.appPrimaryYellow : Asset.AppColor.isSuccess)
+
+                if task.isOverdue, let onMoveToToday {
+                    Button {
+                        onMoveToToday(task)
+                    } label: {
+                        Label("Today".localized, systemImage: "arrow.forward.circle")
+                    }
+                    .tint(Asset.AppColor.appPrimaryYellow)
+                }
+            }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+    }
 }
-
-
