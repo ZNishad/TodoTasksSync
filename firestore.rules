@@ -1,0 +1,49 @@
+rules_version = '2';
+
+// Deploy with:  firebase deploy --only firestore:rules
+//
+// Paths that match no rule are denied by default, so only `tasks` is listed.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /tasks/{taskId} {
+
+      // The signed-in user owns the document as it exists now.
+      function isOwner() {
+        return request.auth != null && request.auth.uid == resource.data.userId;
+      }
+
+      // The signed-in user owns the document as it is being written.
+      function isBecomingOwner() {
+        return request.auth != null && request.auth.uid == request.resource.data.userId;
+      }
+
+      function hasValidShape() {
+        let data = request.resource.data;
+        return data.keys().hasAll(['title', 'isCompleted', 'createdAt', 'userId'])
+            && data.title is string
+            && data.title.size() > 0
+            && data.title.size() <= 500
+            && data.isCompleted is bool
+            && data.createdAt is timestamp
+            && data.userId is string
+            && (!('dueDate' in data) || data.dueDate == null || data.dueDate is timestamp)
+            && (!('completedAt' in data) || data.completedAt == null || data.completedAt is timestamp);
+      }
+
+      // A listener may only subscribe to its own documents, which the app's
+      // `whereField("userId", isEqualTo: uid)` query satisfies.
+      allow read, delete: if isOwner();
+
+      allow create: if isBecomingOwner() && hasValidShape();
+
+      // Shape is deliberately NOT enforced here. Documents written by an earlier
+      // version of the model may not satisfy it, and rejecting their updates
+      // would strand them — unmarkable, undeletable from the app.
+      //
+      // Requiring both predicates means `userId` cannot change, so a task can
+      // never be pushed into someone else's list.
+      allow update: if isOwner() && isBecomingOwner();
+    }
+  }
+}
