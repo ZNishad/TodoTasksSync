@@ -18,9 +18,6 @@ struct TaskDetailView: View {
     @State private var draftTitle = ""
     @State private var draftDueDate = Date()
 
-    /// The sheet is handed the snapshot that existed when the row was tapped. Reading
-    /// the live copy back out of the manager keeps this view honest after an edit — and
-    /// after a change made on another device — instead of rendering stale values.
     private var currentTask: TodoTask {
         taskManager.tasks.first { $0.id == task.id } ?? task
     }
@@ -29,10 +26,12 @@ struct TaskDetailView: View {
         draftTitle.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    /// Saving is offered only for a non-empty title that actually differs from what
-    /// is stored, so the button cannot fire a write that changes nothing.
+    private var isTitleTooLong: Bool {
+        trimmedDraftTitle.count > TodoTask.titleLimit
+    }
+
     private var canSave: Bool {
-        guard !trimmedDraftTitle.isEmpty else { return false }
+        guard !trimmedDraftTitle.isEmpty, !isTitleTooLong else { return false }
         return trimmedDraftTitle != currentTask.title || draftDueDate != currentTask.dueDate
     }
 
@@ -82,13 +81,22 @@ private extension TaskDetailView {
     @ViewBuilder
     var titleSection: some View {
         if isEditing {
-            AppTextField(
-                placeholder: "Task title".localized,
-                iconName: "list.bullet.clipboard",
-                isError: trimmedDraftTitle.isEmpty,
-                autocapitalization: .sentences,
-                fieldText: $draftTitle
-            )
+            VStack(alignment: .trailing, spacing: Asset.AppSpacing.sm / 2) {
+                AppTextField(
+                    placeholder: "Task title".localized
+                        .withCharacterLimit(TodoTask.titleLimit),
+                    iconName: "list.bullet.clipboard",
+                    isError: trimmedDraftTitle.isEmpty || isTitleTooLong,
+                    autocapitalization: .sentences,
+                    fieldText: $draftTitle
+                )
+
+                Text("\(trimmedDraftTitle.count)/\(TodoTask.titleLimit)")
+                    .font(Asset.AppFont.appCaption1)
+                    .foregroundStyle(
+                        isTitleTooLong ? Asset.AppColor.isError : Asset.AppColor.appSecondaryText
+                    )
+            }
         } else {
             Text(currentTask.title)
                 .font(Asset.AppFont.appTitle2)
@@ -138,8 +146,6 @@ private extension TaskDetailView {
                 )
                 .font(Asset.AppFont.appSubheadline)
                 .foregroundStyle(Asset.AppColor.appSecondaryText)
-                // The keyboard is still up from the title field and would otherwise
-                // cover the wheels.
                 .onChange(of: draftDueDate) {
                     hideKeyboard()
                 }
@@ -179,8 +185,6 @@ private extension TaskDetailView {
             }
         } else {
             AppButton(title: "Edit", style: .secondary) {
-                // Seeded on entry rather than on appear, so re-entering edit mode always
-                // starts from what is stored, discarding an abandoned draft.
                 draftTitle = currentTask.title
                 draftDueDate = currentTask.dueDate ?? Date().endOfDay
                 isEditing = true

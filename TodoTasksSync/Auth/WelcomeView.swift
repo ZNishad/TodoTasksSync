@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct WelcomeView: View {
 
     @EnvironmentObject private var authRouter: AuthRouter
@@ -47,7 +46,6 @@ extension WelcomeView {
         .padding(.bottom, Asset.AppSpacing.xxxl)
     }
 
-    /// "To Do & Tasks" in the primary text colour, ": Sync" in the accent colour.
     private var appNameTitle: some View {
         (
             Text("To Do & Tasks").foregroundStyle(Asset.AppColor.appPrimaryText)

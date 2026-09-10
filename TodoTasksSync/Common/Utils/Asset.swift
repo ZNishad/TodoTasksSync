@@ -28,19 +28,17 @@ struct Asset {
     struct AppFont {
         private init() {}
 
-        // Text styles rather than fixed point sizes, so the app follows Dynamic Type.
-        // Each style's default size matches the point size it replaced.
-        static let appLargeTitle = SwiftUI.Font.system(.largeTitle, weight: .bold)   // 34
-        static let appTitle1 = SwiftUI.Font.system(.title, weight: .bold)            // 28
-        static let appTitle2 = SwiftUI.Font.system(.title2, weight: .bold)           // 22
-        static let appTitle3 = SwiftUI.Font.system(.title3, weight: .semibold)       // 20
-        static let appHeadline = SwiftUI.Font.system(.headline, weight: .semibold)   // 17
-        static let appBody = SwiftUI.Font.system(.body, weight: .regular)            // 17
-        static let appCallout = SwiftUI.Font.system(.callout, weight: .regular)      // 16
-        static let appSubheadline = SwiftUI.Font.system(.subheadline, weight: .regular) // 15
-        static let appFootnote = SwiftUI.Font.system(.footnote, weight: .regular)    // 13
-        static let appCaption1 = SwiftUI.Font.system(.caption, weight: .regular)     // 12
-        static let appCaption2 = SwiftUI.Font.system(.caption2, weight: .regular)    // 11
+        static let appLargeTitle = SwiftUI.Font.system(.largeTitle, weight: .bold)       // 34
+        static let appTitle1 = SwiftUI.Font.system(.title, weight: .bold)                // 28
+        static let appTitle2 = SwiftUI.Font.system(.title2, weight: .bold)               // 22
+        static let appTitle3 = SwiftUI.Font.system(.title3, weight: .semibold)           // 20
+        static let appHeadline = SwiftUI.Font.system(.headline, weight: .semibold)       // 17
+        static let appBody = SwiftUI.Font.system(.body, weight: .regular)                // 17
+        static let appCallout = SwiftUI.Font.system(.callout, weight: .regular)          // 16
+        static let appSubheadline = SwiftUI.Font.system(.subheadline, weight: .regular)  // 15
+        static let appFootnote = SwiftUI.Font.system(.footnote, weight: .regular)        // 13
+        static let appCaption1 = SwiftUI.Font.system(.caption, weight: .regular)         // 12
+        static let appCaption2 = SwiftUI.Font.system(.caption2, weight: .regular)        // 11
     }
 
     struct AppSpacing {

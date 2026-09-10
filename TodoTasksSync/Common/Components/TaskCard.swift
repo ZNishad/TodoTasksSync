@@ -27,7 +27,7 @@ struct TaskCard: View {
                     .font(Asset.AppFont.appHeadline)
                     .foregroundStyle(task.isCompleted ? Asset.AppColor.appSecondaryText : Asset.AppColor.appPrimaryText)
                     .strikethrough(task.isCompleted)
-                    .lineLimit(2)
+                    .lineLimit(1)
 
                 HStack(spacing: 4) {
                     Asset.AppImage.calendar
@@ -39,6 +39,7 @@ struct TaskCard: View {
                         .foregroundStyle(task.isOverdue ? Asset.AppColor.isError : Asset.AppColor.appSecondaryText)
                         .lineLimit(1)
                 }
+                .fixedSize()
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -53,8 +54,7 @@ struct TaskCard: View {
             }
         }
         .padding(Asset.AppSpacing.md)
-        // minHeight, not a fixed height: the row has to grow with Dynamic Type.
-        .frame(minHeight: 76)
+        .frame(height: 76)
         .background {
             RoundedRectangle(cornerRadius: Asset.AppSpacing.md)
                 .fill(Asset.AppColor.appSurface)

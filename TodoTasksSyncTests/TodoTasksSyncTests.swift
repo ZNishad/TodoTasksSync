@@ -32,7 +32,6 @@ private func makeTask(
     )
 }
 
-/// Fixed reference point so nothing depends on when the suite runs.
 private let noon = Calendar.current.date(
     from: DateComponents(year: 2026, month: 6, day: 15, hour: 12, minute: 0)
 )!
@@ -117,9 +116,9 @@ struct FormValidationTests {
 
     @Test("eight characters alone is not enough")
     func lengthIsNotSufficient() {
-        #expect(!validation(password: "password").isPasswordValid)   // no uppercase, no digit
-        #expect(!validation(password: "PASSWORD1").isPasswordValid)  // no lowercase
-        #expect(validation(password: "Pasword1").isPasswordValid)    // exactly 8, all rules met
+        #expect(!validation(password: "password").isPasswordValid)
+        #expect(!validation(password: "PASSWORD1").isPasswordValid)
+        #expect(validation(password: "Pasword1").isPasswordValid)
     }
 
     @Test("confirmation must be non-empty and identical")
@@ -234,23 +233,21 @@ struct TaskBucketsTests {
 
         #expect(buckets.todayCompleted.map(\.id) == [completedToday.id])
         #expect(buckets.upcomingCompleted.map(\.id) == [completedEarlierButStillDue.id])
-        // Neither segment shows it — it belongs to History.
         #expect(buckets.overdue.isEmpty)
         #expect(!buckets.todayCompleted.contains { $0.id == completedLongAgo.id })
         #expect(!buckets.upcomingCompleted.contains { $0.id == completedLongAgo.id })
     }
 
-    @Test("a task completed today but due earlier still shows under Today")
+    @Test("an overdue task completed today leaves the segments for History")
     func completedTodayButOverdue() {
-        // Regression: keyed off the due date this fell through every bucket —
-        // History only covers previous days — and disappeared from the UI.
         let task = makeTask(
             isCompleted: true, dueDate: offset(-4 * day), completedAt: offset(-hour)
         )
 
         let buckets = TaskBuckets(tasks: [task], now: noon)
 
-        #expect(buckets.todayCompleted.map(\.id) == [task.id])
+        #expect(buckets.todayCompleted.isEmpty)
+        #expect(buckets.upcomingCompleted.isEmpty)
         #expect(buckets.overdue.isEmpty)
     }
 

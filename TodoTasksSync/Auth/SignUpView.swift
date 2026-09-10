@@ -18,13 +18,9 @@ struct SignUpView: View {
     @State private var showSuccessAlert: Bool = false
     @State private var showPrivacyPolicy = false
 
-
     @EnvironmentObject private var authRouter: AuthRouter
     @EnvironmentObject private var authManager: AuthManager
 
-
-
-    /// Compile-time constant literal, so the force unwrap cannot fail.
     fileprivate static let privacyPolicyURL = URL(string: "https://znishad.github.io/todotaskssync-privacy/")!
 
     private var validation: FormValidation {
@@ -174,7 +170,6 @@ extension SignUpView {
         .padding(.vertical, Asset.AppSpacing.md)
 
     }
-
 
     @ViewBuilder
     private var footer: some View {

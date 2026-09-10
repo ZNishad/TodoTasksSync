@@ -26,8 +26,6 @@ final class TaskManager: ObservableObject {
     func startListening() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
-        // Drop any previous registration first, otherwise a second `onAppear`
-        // would stack listeners and leak them.
         stopListening()
 
         listener = db.collection("tasks")
@@ -59,11 +57,22 @@ final class TaskManager: ObservableObject {
         listener?.remove()
     }
 
+    private func sanitizedTitle(_ title: String) -> String? {
+        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !trimmed.isEmpty else { return nil }
+
+        guard trimmed.count <= TodoTask.titleLimit else {
+            errorMessage = "Title is too long".localized
+            return nil
+        }
+
+        return trimmed
+    }
+
     func addTask(title: String, dueDate: Date?) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
-
-        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedTitle.isEmpty else { return }
+        guard let trimmedTitle = sanitizedTitle(title) else { return }
 
         let docRef = db.collection("tasks").document()
 
@@ -121,16 +130,9 @@ final class TaskManager: ObservableObject {
         }
     }
 
-    /// Applies an edit to the title and the due date in a single write.
-    ///
-    /// The reminder is derived from the due date, so it is re-scheduled unconditionally:
-    /// `scheduleNotification` clears the stale request first and declines to re-arm one
-    /// for a task that is completed or already past due, so no branching is needed here.
     func updateTask(_ task: TodoTask, title: String, dueDate: Date) {
         guard let id = task.id else { return }
-
-        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedTitle.isEmpty else { return }
+        guard let trimmedTitle = sanitizedTitle(title) else { return }
 
         db.collection("tasks").document(id).updateData([
             "title": trimmedTitle,
@@ -166,7 +168,6 @@ final class TaskManager: ObservableObject {
                     return
                 }
 
-                // The reminder is derived from the due date, so it has to follow it.
                 var updated = task
                 updated.dueDate = dueDate
                 self.notificationManager.scheduleNotification(for: updated)

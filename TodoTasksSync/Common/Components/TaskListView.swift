@@ -12,7 +12,6 @@ struct TaskListView: View {
     let onComplete: (TodoTask) -> Void
     let onDelete: (TodoTask) -> Void
     let onTap: (TodoTask) -> Void
-    /// Optional — when provided, overdue rows offer a "move to today" swipe action.
     var onMoveToToday: ((TodoTask) -> Void)? = nil
 
     var body: some View {

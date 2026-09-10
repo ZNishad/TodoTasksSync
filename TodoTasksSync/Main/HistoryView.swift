@@ -68,16 +68,14 @@ private extension HistoryView {
         }
     }
 
-    /// Completed tasks from previous days, grouped by the day they were *completed*
-    /// — grouping by due date filed a task finished today under yesterday's header.
     var historyDays: [(date: Date, tasks: [TodoTask])] {
         let calendar = Calendar.current
         let startOfToday = calendar.startOfDay(for: Date())
 
         let completed = taskManager.tasks.compactMap { task -> (day: Date, task: TodoTask)? in
-            guard task.isCompleted, let completedAt = task.completedAt else { return nil }
+            guard task.isCompleted, let dueDate = task.dueDate else { return nil }
 
-            let day = calendar.startOfDay(for: completedAt)
+            let day = calendar.startOfDay(for: dueDate)
             guard day < startOfToday else { return nil }
 
             return (day, task)

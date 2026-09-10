@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension String {
+nonisolated extension String {
     var localized: String {
         String(localized: LocalizationValue(self))
     }

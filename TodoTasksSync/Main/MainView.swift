@@ -95,8 +95,6 @@ struct MainView: View {
                 .presentationBackground(Asset.AppColor.appBackground)
                 .presentationDragIndicator(.visible)
         }
-        // Key wording is deliberately distinct from the "Logout" menu item: the
-        // string catalog derives a Swift symbol per key and near-identical keys collide.
         .alert("Log out of your account?".localized, isPresented: $showLogoutConfirmation) {
             Button("Cancel".localized, role: .cancel) { }
             Button("Yes, log out".localized, role: .destructive) {
@@ -105,8 +103,6 @@ struct MainView: View {
         } message: {
             Text("Are you sure you want to log out?".localized)
         }
-        // Firestore write failures were previously only stored on the manager
-        // and never reached the user.
         .alert("Error".localized, isPresented: taskErrorBinding) {
             Button("OK".localized) { taskManager.errorMessage = nil }
         } message: {
@@ -185,8 +181,6 @@ extension MainView {
         taskList(for: upcomingSections, allowMoveToToday: false)
     }
 
-    /// One place that wires a set of sections to the manager, so the empty-state
-    /// check reuses the sections that were already computed instead of re-filtering.
     @ViewBuilder
     private func taskList(
         for sections: [(title: String, tasks: [TodoTask])],
@@ -229,7 +223,6 @@ extension MainView {
     }
 }
 
-
 // MARK: - Filter && Sort
 
 private extension MainView {
@@ -252,10 +245,6 @@ private extension MainView {
     }
 }
 
-/// Partitions the task list into the buckets the two segments display.
-/// A single pass, so switching segments or redrawing does not re-filter the
-/// whole array once per section plus once more for the empty-state check.
-/// Stays main-actor isolated along with `TodoTask`, which it reads.
 struct TaskBuckets {
     private(set) var overdue: [TodoTask] = []
     private(set) var todayActive: [TodoTask] = []
@@ -267,22 +256,14 @@ struct TaskBuckets {
         for task in tasks {
             guard let dueDate = task.dueDate else { continue }
 
-            // Compared against the injected `now`, not `isDateInToday`, so the
-            // whole partition has a single source of truth for "today".
             let isToday = calendar.isDate(dueDate, inSameDayAs: now)
 
             if task.isCompleted {
-                // Keyed off the completion date, not the due date. Keying off the due
-                // date made a task finished today but due earlier fall through every
-                // bucket — History only covers previous days — and vanish from the UI.
-                let completionDay = task.completedAt ?? dueDate
-
-                if calendar.isDate(completionDay, inSameDayAs: now) {
+                if isToday {
                     todayCompleted.append(task)
                 } else if dueDate > now {
                     upcomingCompleted.append(task)
                 }
-                // Completed on an earlier day and no longer upcoming — that is History.
             } else if dueDate < now {
                 overdue.append(task)
             } else if isToday {
@@ -292,17 +273,10 @@ struct TaskBuckets {
             }
         }
 
-        // Written inline rather than hoisted into named comparators. `sort(by:)`
-        // invokes its predicate in a nonisolated context, and a `static func` would
-        // carry this target's `MainActor` default isolation, which cannot cross into
-        // it. A closure literal infers the caller's isolation, so it can.
-        //
-        // Soonest due first.
         overdue.sort { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
         todayActive.sort { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
         upcomingActive.sort { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
 
-        // Most recently completed first.
         todayCompleted.sort { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
         upcomingCompleted.sort { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
     }

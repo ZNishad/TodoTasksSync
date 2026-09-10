@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct AddTaskView: View {
-    // End of today rather than "right now", which would create a task that is
-    // already at its deadline and whose reminder time has passed.
     @State private var title: String = ""
-    @State private var dueDate: Date = Date().endOfDay
+    @State private var dueDate: Date = Date()
 
     @EnvironmentObject private var taskManager: TaskManager
     @Environment(\.dismiss) private var dismiss
@@ -20,16 +18,36 @@ struct AddTaskView: View {
         title.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+    private var isTitleTooLong: Bool {
+        trimmedTitle.count > TodoTask.titleLimit
+    }
+
+    private var canSubmit: Bool {
+        !trimmedTitle.isEmpty && !isTitleTooLong
+    }
+
     var body: some View {
         VStack(spacing: Asset.AppSpacing.lg) {
             Text("Add new Task".localized)
                 .font(Asset.AppFont.appTitle1)
                 .foregroundStyle(Asset.AppColor.appPrimaryText)
 
-            AppTextField(placeholder: "What do you need to do?".localized,
-                         iconName: "list.bullet.clipboard",
-                         autocapitalization: .sentences,
-                         fieldText: $title)
+            VStack(alignment: .trailing, spacing: Asset.AppSpacing.sm / 2) {
+                AppTextField(
+                    placeholder: "What do you need to do?".localized
+                        .withCharacterLimit(TodoTask.titleLimit),
+                    iconName: "list.bullet.clipboard",
+                    isError: isTitleTooLong,
+                    autocapitalization: .sentences,
+                    fieldText: $title
+                )
+
+                Text("\(trimmedTitle.count)/\(TodoTask.titleLimit)")
+                    .font(Asset.AppFont.appCaption1)
+                    .foregroundStyle(
+                        isTitleTooLong ? Asset.AppColor.isError : Asset.AppColor.appSecondaryText
+                    )
+            }
 
             DatePicker(
                 "Due date".localized,
@@ -41,7 +59,7 @@ struct AddTaskView: View {
                 hideKeyboard()
             }
 
-            AppButton(title: "Add Task", style: .primary, isDisabled: trimmedTitle.isEmpty) {
+            AppButton(title: "Add Task", style: .primary, isDisabled: !canSubmit) {
                 taskManager.addTask(title: trimmedTitle, dueDate: dueDate)
                 dismiss()
             }

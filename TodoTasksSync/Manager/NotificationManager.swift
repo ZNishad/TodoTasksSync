@@ -25,7 +25,6 @@ final class NotificationManager: NSObject, ObservableObject, UNUserNotificationC
         }
     }
 
-    /// Minutes before the due date at which the reminder fires.
     private static let reminderLeadTime = 30
 
     func scheduleNotification(for task: TodoTask) {
@@ -33,14 +32,11 @@ final class NotificationManager: NSObject, ObservableObject, UNUserNotificationC
 
         let center = UNUserNotificationCenter.current()
 
-        // Always clear the previous request: the due date may have moved, and a
-        // stale reminder for the old date would otherwise still be pending.
         center.removePendingNotificationRequests(withIdentifiers: [id])
 
         guard let dueDate = task.dueDate, !task.isCompleted else { return }
 
         let now = Date()
-        // Nothing left to remind about once the due date itself has passed.
         guard dueDate > now else { return }
 
         let leadTimeDate = Calendar.current.date(
@@ -49,8 +45,6 @@ final class NotificationManager: NSObject, ObservableObject, UNUserNotificationC
             to: dueDate
         ) ?? dueDate
 
-        // For a task due in less than the lead time, fall back to the due date itself
-        // rather than scheduling into the past, where the trigger would never fire.
         let triggerDate = leadTimeDate > now ? leadTimeDate : dueDate
 
         let content = UNMutableNotificationContent()

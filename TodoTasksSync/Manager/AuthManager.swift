@@ -117,8 +117,6 @@ final class AuthManager: ObservableObject {
 
             _ = try await Auth.auth().signIn(with: credential)
         } catch {
-            // Dismissing the Google sheet is a normal user action, not something
-            // to raise an alert about.
             let nsError = error as NSError
             guard !(nsError.domain == kGIDSignInErrorDomain
                     && nsError.code == Self.googleSignInCanceledCode) else { return }
@@ -127,7 +125,6 @@ final class AuthManager: ObservableObject {
         }
     }
 
-    /// `kGIDSignInErrorCodeCanceled`.
     private static let googleSignInCanceledCode = -5
 
     func updateUserName(_ name: String) async -> Bool {
@@ -187,9 +184,6 @@ final class AuthManager: ObservableObject {
         }
     }
 
-    /// Reauthenticates, deletes every task owned by the user, then deletes the account itself.
-    /// Firebase requires a recent login before `delete()`, so reauthentication is mandatory —
-    /// Google users are reauthenticated silently, email users must supply their password.
     func deleteAccount(password: String? = nil) async -> Bool {
         errorMessage = nil
 
@@ -215,8 +209,6 @@ final class AuthManager: ObservableObject {
                 return false
             }
 
-            // Tasks must go before the account: once the user is gone the security rules
-            // no longer authorize the delete and the documents would be orphaned.
             try await deleteAllTasks(for: user.uid)
 
             try await user.delete()
@@ -236,7 +228,6 @@ final class AuthManager: ObservableObject {
 
         guard !snapshot.documents.isEmpty else { return }
 
-        // A write batch is capped at 500 operations.
         for chunk in snapshot.documents.chunked(into: 400) {
             let batch = db.batch()
             chunk.forEach { batch.deleteDocument($0.reference) }

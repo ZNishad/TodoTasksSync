@@ -52,8 +52,6 @@ struct AppButton: View {
     var isDisabled: Bool = false
     let action: () -> Void
 
-    /// Loading counts as disabled too, so a second tap can't fire the action
-    /// while the first one is still in flight.
     private var isInteractionBlocked: Bool {
         isDisabled || isLoading
     }

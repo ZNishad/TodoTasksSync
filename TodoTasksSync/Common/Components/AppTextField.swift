@@ -12,8 +12,6 @@ struct AppTextField: View {
     let iconName: String?
     var isSecured: Bool = false
     var isError: Bool = false
-    /// Drives autofill and the keyboard's suggestion bar — must match what the field
-    /// actually holds, so it is supplied per call site instead of being hard-coded.
     var contentType: UITextContentType? = nil
     var autocapitalization: TextInputAutocapitalization = .never
     @State private var isPasswordVisible: Bool = false

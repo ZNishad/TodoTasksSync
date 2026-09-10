@@ -76,8 +76,6 @@ private extension ProfileView {
         nameValidation.isNameValid && trimmedName != authManager.userName
     }
 
-    /// The new password is held to the same rules as registration — previously this
-    /// screen only checked that the two fields matched.
     var canChangePassword: Bool {
         !oldPass.isEmpty
             && passwordValidation.isPasswordValid
@@ -227,8 +225,6 @@ private extension ProfileView {
             }
             .disabled(isDeletingAccount)
             .alert("Delete your account?".localized, isPresented: $showDeleteConfirmation) {
-                // Firebase refuses to delete an account without a recent login, so an
-                // email user has to confirm with their password here.
                 if !authManager.isGoogleUser {
                     SecureField("Enter your password".localized, text: $deletePassword)
                 }
@@ -295,8 +291,6 @@ private extension ProfileView {
         deletePassword = ""
         isDeletingAccount = false
 
-        // On success the auth state listener tears this whole flow down,
-        // so only failure needs reporting here — previously it was silent.
         guard !success else { return }
 
         alertMessage = authManager.errorMessage ?? "Something went wrong".localized

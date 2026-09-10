@@ -18,9 +18,13 @@ nonisolated extension Date {
     }
 }
 
+nonisolated extension String {
+    func withCharacterLimit(_ limit: Int) -> String {
+        "\(self) (\("max".localized) \(limit))"
+    }
+}
+
 nonisolated extension Array {
-    /// Splits the array into consecutive slices of at most `size` elements.
-    /// Used to keep Firestore batch writes under the 500-operation limit.
     func chunked(into size: Int) -> [[Element]] {
         guard size > 0 else { return [self] }
         return stride(from: 0, to: count, by: size).map {

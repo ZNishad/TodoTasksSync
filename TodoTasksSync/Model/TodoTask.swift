@@ -8,9 +8,6 @@
 import SwiftUI
 import FirebaseFirestore
 
-// Stays on the target's default `MainActor` isolation: a blanket `nonisolated`
-// is rejected because Firestore's `@DocumentID` wrapper adds a mutable stored
-// property, and `Sendable` cannot hold while `DocumentID` itself is not.
 struct TodoTask: Codable, Identifiable {
     @DocumentID var id: String?
     var title: String
@@ -25,5 +22,5 @@ struct TodoTask: Codable, Identifiable {
         return dueDate < Date()
     }
 
-
+    nonisolated static let titleLimit = 100
 }
