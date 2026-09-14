@@ -21,6 +21,7 @@
 		215C959430207AC200508E06 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 215C959330207AC200508E06 /* GoogleService-Info.plist */; };
 		215C95E53021D88F00508E06 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E43021D88F00508E06 /* TaskManager.swift */; };
 		215C95E83021D8BA00508E06 /* TodoTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E73021D8BA00508E06 /* TodoTask.swift */; };
+		2F395B1FA2B4A5FD6527C7DC /* TaskBuckets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74340D917104F7555510BB63 /* TaskBuckets.swift */; };
 		215C95EA3021F99F00508E06 /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E93021F99F00508E06 /* TaskRouter.swift */; };
 		2183736C302C58BE00D20029 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183736B302C58BE00D20029 /* NotificationManager.swift */; };
 		21837370302CA62300D20029 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183736F302CA62300D20029 /* SafariView.swift */; };
@@ -79,6 +80,7 @@
 		215C959330207AC200508E06 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		215C95E43021D88F00508E06 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		215C95E73021D8BA00508E06 /* TodoTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTask.swift; sourceTree = "<group>"; };
+		74340D917104F7555510BB63 /* TaskBuckets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBuckets.swift; sourceTree = "<group>"; };
 		215C95E93021F99F00508E06 /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
 		2183736B302C58BE00D20029 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		2183736F302CA62300D20029 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				215C95E73021D8BA00508E06 /* TodoTask.swift */,
+				74340D917104F7555510BB63 /* TaskBuckets.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				21D40CC73025C9F40092B815 /* TaskListView.swift in Sources */,
 				21D40BC8302209490092B815 /* HistoryView.swift in Sources */,
 				215C95E83021D8BA00508E06 /* TodoTask.swift in Sources */,
+				2F395B1FA2B4A5FD6527C7DC /* TaskBuckets.swift in Sources */,
 				21D40BC6302208AB0092B815 /* MainView.swift in Sources */,
 				21D40CCB302615090092B815 /* ProfileView.swift in Sources */,
 				21B4C487301A1CB400147D09 /* AppTextField.swift in Sources */,

@@ -76,6 +76,7 @@ final class AuthManager: ObservableObject {
         errorMessage = nil
         do {
             try Auth.auth().signOut()
+            GIDSignIn.sharedInstance.signOut()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -194,12 +195,15 @@ final class AuthManager: ObservableObject {
 
         do {
             if isGoogleUser {
-                guard let idToken = GIDSignIn.sharedInstance.currentUser?.idToken?.tokenString,
-                      let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken.tokenString else {
+                guard let googleUser = try? await refreshedGoogleUser(),
+                      let idToken = googleUser.idToken?.tokenString else {
                     errorMessage = "Unable to reauthenticate with Google".localized
                     return false
                 }
-                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+                let credential = GoogleAuthProvider.credential(
+                    withIDToken: idToken,
+                    accessToken: googleUser.accessToken.tokenString
+                )
                 try await user.reauthenticate(with: credential)
             } else if let email = user.email, let password, !password.isEmpty {
                 let credential = EmailAuthProvider.credential(withEmail: email, password: password)
@@ -212,11 +216,28 @@ final class AuthManager: ObservableObject {
             try await deleteAllTasks(for: user.uid)
 
             try await user.delete()
+
+            do {
+                try await GIDSignIn.sharedInstance.disconnect()
+            } catch {
+                GIDSignIn.sharedInstance.signOut()
+            }
+
             return true
         } catch {
             errorMessage = error.localizedDescription
             return false
         }
+    }
+
+    private func refreshedGoogleUser() async throws -> GIDGoogleUser {
+        let signIn = GIDSignIn.sharedInstance
+
+        if let currentUser = signIn.currentUser {
+            return try await currentUser.refreshTokensIfNeeded()
+        }
+
+        return try await signIn.restorePreviousSignIn()
     }
 
     private func deleteAllTasks(for userId: String) async throws {

@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 enum AuthDestination: Hashable {
-    case signIn, signUp, forgotPassword
+    case signIn, signUp
 }
 
 @MainActor
@@ -20,13 +20,12 @@ final class AuthRouter: ObservableObject {
         path.append(destination)
     }
 
-    func pop() {
-        guard !path.isEmpty else { return }
-        path.removeLast()
-    }
-
     func popToRoot() {
         path = NavigationPath()
+    }
+
+    func popToRootAndPush(_ destination: AuthDestination) {
+        path = NavigationPath([destination])
     }
 
 }

@@ -20,13 +20,4 @@ final class TaskRouter: ObservableObject {
         path.append(destination)
     }
 
-    func pop() {
-        guard !path.isEmpty else { return }
-        path.removeLast()
-    }
-
-    func popToRoot() {
-        path = NavigationPath()
-    }
-
 }

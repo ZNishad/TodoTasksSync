@@ -53,7 +53,7 @@ struct SignUpView: View {
         }
         .alert("Check your email".localized, isPresented: $showSuccessAlert) {
             Button("OK".localized) {
-                authRouter.push(.signIn)
+                authRouter.popToRootAndPush(.signIn)
             }
         } message: {
             Text("We've sent a verification link to your email. Please verify before signing in.".localized)
@@ -231,7 +231,7 @@ extension SignUpView {
                 Spacer()
 
                 Button {
-                    authRouter.push(.signIn)
+                    authRouter.popToRootAndPush(.signIn)
                 } label: {
                     Text("Sign In".localized)
                         .font(Asset.AppFont.appHeadline)

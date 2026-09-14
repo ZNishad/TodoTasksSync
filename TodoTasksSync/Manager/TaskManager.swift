@@ -110,7 +110,10 @@ final class TaskManager: ObservableObject {
                 } else if isNowCompleted {
                     self?.notificationManager.cancelNotification(for: task)
                 } else {
-                    self?.notificationManager.scheduleNotification(for: task)
+                    var reopened = task
+                    reopened.isCompleted = false
+                    reopened.completedAt = nil
+                    self?.notificationManager.scheduleNotification(for: reopened)
                 }
             }
         }

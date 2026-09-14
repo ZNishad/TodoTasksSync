@@ -179,7 +179,7 @@ extension SignInView {
                     .foregroundStyle(Asset.AppColor.appSecondaryText)
 
                 Button {
-                    authRouter.push(.signUp)
+                    authRouter.popToRootAndPush(.signUp)
                 } label: {
                     Text("Sign Up")
                         .font(Asset.AppFont.appHeadline)

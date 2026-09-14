@@ -12,7 +12,6 @@ struct TaskDetailView: View {
     let task: TodoTask
 
     @EnvironmentObject private var taskManager: TaskManager
-    @Environment(\.dismiss) private var dismiss
 
     @State private var isEditing = false
     @State private var draftTitle = ""
