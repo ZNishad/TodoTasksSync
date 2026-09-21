@@ -21,7 +21,6 @@
 		215C959430207AC200508E06 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 215C959330207AC200508E06 /* GoogleService-Info.plist */; };
 		215C95E53021D88F00508E06 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E43021D88F00508E06 /* TaskManager.swift */; };
 		215C95E83021D8BA00508E06 /* TodoTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E73021D8BA00508E06 /* TodoTask.swift */; };
-		2F395B1FA2B4A5FD6527C7DC /* TaskBuckets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74340D917104F7555510BB63 /* TaskBuckets.swift */; };
 		215C95EA3021F99F00508E06 /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215C95E93021F99F00508E06 /* TaskRouter.swift */; };
 		2183736C302C58BE00D20029 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183736B302C58BE00D20029 /* NotificationManager.swift */; };
 		21837370302CA62300D20029 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183736F302CA62300D20029 /* SafariView.swift */; };
@@ -46,6 +45,7 @@
 		21E8F1EF301F94AE005C972B /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1EE301F94AE005C972B /* ForgotPassView.swift */; };
 		21E8F1F1301F9CFE005C972B /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1F0301F9CFE005C972B /* Helpers.swift */; };
 		21E8F1F3301FA048005C972B /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8F1F2301FA048005C972B /* EmailValidator.swift */; };
+		2F395B1FA2B4A5FD6527C7DC /* TaskBuckets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74340D917104F7555510BB63 /* TaskBuckets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +80,6 @@
 		215C959330207AC200508E06 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		215C95E43021D88F00508E06 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		215C95E73021D8BA00508E06 /* TodoTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTask.swift; sourceTree = "<group>"; };
-		74340D917104F7555510BB63 /* TaskBuckets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBuckets.swift; sourceTree = "<group>"; };
 		215C95E93021F99F00508E06 /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
 		2183736B302C58BE00D20029 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		2183736F302CA62300D20029 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
@@ -105,6 +104,7 @@
 		21E8F1EE301F94AE005C972B /* ForgotPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassView.swift; sourceTree = "<group>"; };
 		21E8F1F0301F9CFE005C972B /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		21E8F1F2301FA048005C972B /* EmailValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidator.swift; sourceTree = "<group>"; };
+		74340D917104F7555510BB63 /* TaskBuckets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBuckets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,7 +353,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2660;
-				LastUpgradeCheck = 2660;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					2121E3FA3017483600874814 = {
 						CreatedOnToolsVersion = 26.6;
@@ -485,6 +485,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -539,6 +540,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -550,6 +552,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -597,6 +600,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
